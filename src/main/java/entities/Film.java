@@ -2,10 +2,14 @@ package entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+@Getter
+@Setter
 @Entity
 public class Film {
     @Id
