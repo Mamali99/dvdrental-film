@@ -2,8 +2,11 @@ package resources;
 
 import entities.Actor;
 import entities.Film;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import services.FilmService;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -11,11 +14,24 @@ import java.util.List;
 
 @Path("/films")
 public class FilmResource {
+
+    @Inject
+    FilmService filmService;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Film> getFirst10Films() {
+        return filmService.getFirst20Films();
+    }
+
+    /*
     @GET
     public List<Film> getFilms(@QueryParam("page") @DefaultValue("1") int page) {
         // Implementierung
         return new ArrayList<>();
     }
+
+     */
 
     @POST
     public Response createFilm(Film film) {
