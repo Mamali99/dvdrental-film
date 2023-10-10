@@ -18,20 +18,16 @@ public class ActorResource {
     @Inject
     ActorService actorService;
 
+
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Actor> getFirst10Actors() {
-        return actorService.getFirst10Actors();
+    public Response getActors(@QueryParam("page") @DefaultValue("1") int page) {
+        List<Actor> actors = actorService.getFirst10Actors();
+        return Response.ok(actors).build();
     }
 
-/*
-    @GET
-    public List<Actor> getActors(@QueryParam("page") @DefaultValue("1") int page) {
-        // Implementierung
-        return new ArrayList<>();
-    }
 
- */
 
     @POST
     public Response createActor(Actor actor) {

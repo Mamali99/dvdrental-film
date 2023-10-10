@@ -19,4 +19,5 @@ public class ActorService {
         query.setMaxResults(10);
         return query.getResultList();
     }
+
 }
