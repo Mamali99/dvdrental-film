@@ -26,6 +26,7 @@ public class RootResource {
         paths.put("actors", baseUri + "actors");
         paths.put("films", baseUri + "films");
         paths.put("languages", baseUri + "languages");
+        paths.put("categories", baseUri + "categories");
 
 
         return Response.ok(paths).build();
