@@ -24,6 +24,7 @@ public class ActorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getActors(@QueryParam("page") @DefaultValue("1") int page) {
         List<Actor> actors = actorService.getFirst10Actors();
+
         return Response.ok(actors).build();
     }
 

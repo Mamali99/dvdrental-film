@@ -1,18 +1,20 @@
 package entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 public class Film {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "film_film_id_seq")
+    @SequenceGenerator(name = "film_film_id_seq", sequenceName = "film_film_id_seq", allocationSize = 1)
     private Integer film_id;
     private String title;
     private String description;
@@ -24,4 +26,10 @@ public class Film {
     private BigDecimal replacement_cost;
     private String rating;
     private Timestamp last_update;
+
+    /*
+    @ManyToMany(mappedBy = "films")
+    private List<Actor> actors;
+
+     */
 }

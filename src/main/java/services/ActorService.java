@@ -17,6 +17,7 @@ public class ActorService {
     public List<Actor> getFirst10Actors() {
         TypedQuery<Actor> query = entityManager.createQuery("SELECT a FROM Actor a", Actor.class);
         query.setMaxResults(10);
+
         return query.getResultList();
     }
 
