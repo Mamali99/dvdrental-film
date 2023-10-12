@@ -1,5 +1,6 @@
 package entities;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,9 +28,10 @@ public class Film {
     private String rating;
     private Timestamp last_update;
 
-    /*
+
     @ManyToMany(mappedBy = "films")
+    @JsonbTransient
     private List<Actor> actors;
 
-     */
+
 }

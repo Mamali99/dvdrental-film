@@ -20,7 +20,7 @@ public class Actor {
     private String last_name;
     private Timestamp last_update;
 
-    /*
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "film_actor",
@@ -29,6 +29,6 @@ public class Actor {
     )
     private List<Film> films;
 
-     */
+
 
 }
