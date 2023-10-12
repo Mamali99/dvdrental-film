@@ -67,8 +67,9 @@ public class ActorResource {
 
     @GET
     @Path("/{id}/films")
-    public List<Film> getFilmsByActorId(@PathParam("id") int id) {
-        // Implementierung
-        return new ArrayList<>();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getFilmsByActorId(@PathParam("id") int id) {
+        List<Film> films = actorService.getFilmsByActorId(id);
+        return Response.ok(films).build();
     }
 }

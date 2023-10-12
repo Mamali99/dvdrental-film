@@ -1,6 +1,7 @@
 package services;
 
 import entities.Actor;
+import entities.Film;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -28,5 +29,14 @@ public class ActorService {
 
     public Actor getActorById(int id) {
         return entityManager.find(Actor.class, id);
+    }
+
+    public List<Film> getFilmsByActorId(int id){
+        TypedQuery<Film> query = entityManager.createQuery(
+                "SELECT f FROM Film f JOIN f.actors a WHERE a.actor_id = :actor_id",
+                Film.class
+        );
+        query.setParameter("actor_id", id);
+        return query.getResultList();
     }
 }
