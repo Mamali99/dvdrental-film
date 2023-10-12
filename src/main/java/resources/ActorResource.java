@@ -38,16 +38,17 @@ public class ActorResource {
 
     @GET
     @Path("/count")
-    public int getActorCount() {
-        // Implementierung
-        return 0;
+    public Response getActorCount() {
+        Integer count = actorService.getActorCount();
+        return Response.ok(count).build();
     }
 
     @GET
     @Path("/{id}")
-    public Actor getActorById(@PathParam("id") int id) {
-        // Implementierung
-        return new Actor();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getActorById(@PathParam("id") int id) {
+        Actor actor = actorService.getActorById(id);
+        return Response.ok(actor).build();
     }
 
     @DELETE

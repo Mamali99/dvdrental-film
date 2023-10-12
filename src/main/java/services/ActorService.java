@@ -21,4 +21,12 @@ public class ActorService {
         return query.getResultList();
     }
 
+    public Integer getActorCount() {
+        TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(a) FROM Actor a", Long.class);
+        return query.getSingleResult().intValue();
+    }
+
+    public Actor getActorById(int id) {
+        return entityManager.find(Actor.class, id);
+    }
 }
