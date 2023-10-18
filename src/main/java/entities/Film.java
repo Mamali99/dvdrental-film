@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Film {
+public class Film implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "film_film_id_seq")
     @SequenceGenerator(name = "film_film_id_seq", sequenceName = "film_film_id_seq", allocationSize = 1)
@@ -29,9 +30,24 @@ public class Film {
     private Timestamp last_update;
 
 
-    @ManyToMany(mappedBy = "films")
-    @JsonbTransient
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "film_actor",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id")
+    )
     private List<Actor> actors;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "film_category",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "language_id", referencedColumnName = "language_id", insertable = false, updatable = false)
+    private Language language;
 }

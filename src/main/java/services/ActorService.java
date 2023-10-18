@@ -2,6 +2,7 @@ package services;
 
 import entities.Actor;
 import entities.Film;
+import jakarta.ejb.Stateless;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -10,6 +11,7 @@ import jakarta.persistence.TypedQuery;
 import java.util.List;
 
 @Named
+@Stateless
 public class ActorService {
 
     @PersistenceContext
@@ -18,8 +20,11 @@ public class ActorService {
     public List<Actor> getFirst10Actors() {
         TypedQuery<Actor> query = entityManager.createQuery("SELECT a FROM Actor a", Actor.class);
         query.setMaxResults(10);
-
-        return query.getResultList();
+        List<Actor> actors = query.getResultList();
+        for (Actor actor : actors) {
+            actor.getFilms().size(); // initialisiert die films-Liste
+        }
+        return actors;
     }
 
     public Integer getActorCount() {

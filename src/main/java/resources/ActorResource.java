@@ -19,7 +19,6 @@ public class ActorResource {
     ActorService actorService;
 
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getActors(@QueryParam("page") @DefaultValue("1") int page) {

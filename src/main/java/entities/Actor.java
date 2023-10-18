@@ -5,13 +5,15 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
-public class Actor {
+public class Actor implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "actor_actor_id_seq")
     @SequenceGenerator(name = "actor_actor_id_seq", sequenceName = "actor_actor_id_seq", allocationSize = 1)
@@ -20,15 +22,7 @@ public class Actor {
     private String last_name;
     private Timestamp last_update;
 
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "film_actor",
-            joinColumns = @JoinColumn(name = "actor_id"),
-            inverseJoinColumns = @JoinColumn(name = "film_id")
-    )
+    @JsonbTransient
+    @ManyToMany(mappedBy = "actors", fetch = FetchType.EAGER)
     private List<Film> films;
-
-
-
 }
