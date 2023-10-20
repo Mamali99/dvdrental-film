@@ -2,6 +2,7 @@ package resources;
 
 import entities.Film;
 import entities.Language;
+import entities.LanguageDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -19,24 +20,11 @@ public class LanguageResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Language> getFirst10Language() {
-        return languageService.get10Languages();
-    }
-
-    /*
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getLanguages() {
-        List<String> languages = fetchLanguages(); // Implementierung der Methode, um die Sprachen abzurufen
+        List<LanguageDTO> languages = languageService.getLanguages();
         return Response.ok(languages).build();
     }
 
-    private List<String> fetchLanguages() {
-        // Implementierung, um die Liste der Sprachen abzurufen
-        // Zum Beispiel: return Arrays.asList("English", "German", "French");
-        return null;
-    }
 
-     */
 }
 
