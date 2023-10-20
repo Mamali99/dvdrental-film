@@ -19,7 +19,7 @@ public class FilmDTO {
     private BigDecimal rentalRate;
     private BigDecimal replacementCost;
     private String language;
-    private List<FilmsHref> actorsLinks;
+    private List<FilmsHref> actors;
     private List<String> categories;
 
 

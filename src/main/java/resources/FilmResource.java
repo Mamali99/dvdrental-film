@@ -42,7 +42,7 @@ public class FilmResource {
             for (Actor actor : film.getActors()) {
                 actorsLinks.add(new FilmsHref("/actors/" + actor.getActor_id() + "/films"));
             }
-            filmDTO.setActorsLinks(actorsLinks);
+            filmDTO.setActors(actorsLinks);
 
             List<String> categories = new ArrayList<>();
             for (Category category : film.getCategories()) {

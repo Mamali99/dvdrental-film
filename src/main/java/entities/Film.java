@@ -32,7 +32,7 @@ public class Film implements Serializable {
 
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "film_actor",
             joinColumns = @JoinColumn(name = "film_id"),

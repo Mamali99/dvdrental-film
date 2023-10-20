@@ -42,13 +42,13 @@ public class ActorService {
     }
 
 
-    public List<Film> getFilmsByActorId(int id){
-        TypedQuery<Film> query = entityManager.createQuery(
-                "SELECT f FROM Film f JOIN FETCH f.actors a WHERE a.actor_id = :actor_id",
-                Film.class
+    public List<Actor> getFilmsByActorId(int id) {
+        TypedQuery<Actor> query = entityManager.createQuery(
+                "SELECT a FROM Actor a JOIN FETCH a.films",
+                Actor.class
         );
-
-        query.setParameter("actor_id", id);
+        query.setMaxResults(10);
         return query.getResultList();
     }
+
 }
