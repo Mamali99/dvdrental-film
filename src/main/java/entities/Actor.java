@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
+
 @Getter
 @Setter
 @Entity
@@ -22,7 +23,8 @@ public class Actor implements Serializable {
     private String last_name;
     private Timestamp last_update;
 
+
     @JsonbTransient
-    @ManyToMany(mappedBy = "actors", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "actors")
     private List<Film> films;
 }

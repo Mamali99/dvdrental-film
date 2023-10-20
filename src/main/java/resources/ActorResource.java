@@ -1,7 +1,9 @@
 package resources;
 
 import entities.Actor;
+import entities.ActorDTO;
 import entities.Film;
+import entities.FilmsHref;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -24,7 +26,19 @@ public class ActorResource {
     public Response getActors(@QueryParam("page") @DefaultValue("1") int page) {
         List<Actor> actors = actorService.getFirst10Actors();
 
-        return Response.ok(actors).build();
+        List<ActorDTO> actorDTOs = new ArrayList<>();
+
+        for (Actor actor : actors) {
+            ActorDTO actorDTO = new ActorDTO();
+            actorDTO.setId(actor.getActor_id());
+            actorDTO.setFirstName(actor.getFirst_name());
+            actorDTO.setLastName(actor.getLast_name());
+            actorDTO.setFilms(new FilmsHref("/actors/" + actor.getActor_id() + "/films")); // Beispiel-URL
+
+            actorDTOs.add(actorDTO);
+        }
+
+        return Response.ok(actorDTOs).build();
     }
 
 
@@ -47,7 +61,14 @@ public class ActorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getActorById(@PathParam("id") int id) {
         Actor actor = actorService.getActorById(id);
-        return Response.ok(actor).build();
+
+        ActorDTO actorDTO = new ActorDTO();
+        actorDTO.setId(actor.getActor_id());
+        actorDTO.setFirstName(actor.getFirst_name());
+        actorDTO.setLastName(actor.getLast_name());
+        actorDTO.setFilms(new FilmsHref("/actors/" + actor.getActor_id() + "/films")); // Beispiel-URL
+
+        return Response.ok(actorDTO).build();
     }
 
     @DELETE

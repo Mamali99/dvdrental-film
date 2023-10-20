@@ -18,14 +18,14 @@ public class ActorService {
     private EntityManager entityManager;
 
     public List<Actor> getFirst10Actors() {
-        TypedQuery<Actor> query = entityManager.createQuery("SELECT a FROM Actor a", Actor.class);
+        TypedQuery<Actor> query = entityManager.createQuery(
+                "SELECT a FROM Actor a JOIN FETCH a.films",
+                Actor.class
+        );
         query.setMaxResults(10);
-        List<Actor> actors = query.getResultList();
-        for (Actor actor : actors) {
-            actor.getFilms().size(); // initialisiert die films-Liste
-        }
-        return actors;
+        return query.getResultList();
     }
+
 
     public Integer getActorCount() {
         TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(a) FROM Actor a", Long.class);
