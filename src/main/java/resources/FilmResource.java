@@ -158,10 +158,14 @@ public class FilmResource {
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}/actors")
-    public List<Actor> getActorsByFilmId(@PathParam("id") int id) {
-        // Implementierung
-        return new ArrayList<>();
+    public Response getActorsByFilmId(@PathParam("id") int id) {
+        List<ActorDTO> actorDTOs = filmService.getActorsByFilmId(id);
+        if (actorDTOs == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Film not found for ID: " + id).build();
+        }
+        return Response.ok(actorDTOs).build();
     }
 
     @PUT
