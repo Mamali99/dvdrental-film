@@ -1,12 +1,14 @@
 package services;
 
 import entities.Category;
+import entities.CategoryDTO;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Named
@@ -17,8 +19,13 @@ public class CategoryService {
     EntityManager entityManager;
 
 
-    public List<Category> getCategory(){
-        TypedQuery<Category> query = entityManager.createQuery("SELECT c FROM Category c", Category.class);
-        return query.getResultList();
+    public List<CategoryDTO> getCategory(){
+        List<Category> categories = entityManager.createQuery("SELECT c FROM Category c", Category.class).getResultList();
+        List<CategoryDTO> categoryDTOs = new ArrayList<>();
+        for (Category category : categories) {
+            categoryDTOs.add(new CategoryDTO(category.getCategory_id(), category.getName(), category.getLast_update()));
+        }
+        return categoryDTOs;
     }
+
 }

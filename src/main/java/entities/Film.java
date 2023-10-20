@@ -41,7 +41,7 @@ public class Film implements Serializable {
     @JsonbTransient
     private List<Actor> actors;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "film_category",
             joinColumns = @JoinColumn(name = "film_id"),
