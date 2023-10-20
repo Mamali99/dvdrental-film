@@ -105,22 +105,49 @@ public class FilmResource {
     @GET
     @Path("/count")
     public int getFilmCount() {
-        // Implementierung
-        return 0;
+        return filmService.getFilmCount();
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public Film getFilmById(@PathParam("id") int id) {
-        // Implementierung
-        return new Film();
+    public Response getFilmById(@PathParam("id") int id) {
+        Film film = filmService.getFilmById(id);
+        if (film == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Film not found for ID: " + id).build();
+        }
+
+        FilmDTO filmDTO = new FilmDTO();
+        filmDTO.setId(film.getFilm_id());
+        filmDTO.setTitle(film.getTitle());
+        filmDTO.setDescription(film.getDescription());
+        filmDTO.setLength(film.getLength());
+        filmDTO.setRating(film.getRating());
+        filmDTO.setReleaseYear(film.getRelease_year());
+        filmDTO.setRentalDuration(film.getRental_duration());
+        filmDTO.setRentalRate(film.getRental_rate());
+        filmDTO.setReplacementCost(film.getReplacement_cost());
+        filmDTO.setLanguage(film.getLanguage().getName().trim());
+
+        List<FilmsHref> actorsLinks = new ArrayList<>();
+        for (Actor actor : film.getActors()) {
+            actorsLinks.add(new FilmsHref("/actors/" + actor.getActor_id() + "/films"));
+        }
+        filmDTO.setActors(actorsLinks);
+
+        List<String> categories = new ArrayList<>();
+        for (Category category : film.getCategories()) {
+            categories.add(category.getName());
+        }
+        filmDTO.setCategories(categories);
+
+        return Response.ok(filmDTO).build();
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteFilm(@PathParam("id") int id) {
-        // Implementierung
-        return Response.noContent().build();
+        return null;
     }
 
     @PATCH

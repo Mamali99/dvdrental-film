@@ -24,4 +24,13 @@ public class FilmService {
     public EntityManager getEntityManager() {
         return entityManager;
     }
+
+    public int getFilmCount() {
+        TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(f) FROM Film f", Long.class);
+        return query.getSingleResult().intValue();
+    }
+
+    public Film getFilmById(int id) {
+        return entityManager.find(Film.class, id);
+    }
 }
