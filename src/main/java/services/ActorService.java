@@ -33,8 +33,14 @@ public class ActorService {
     }
 
     public Actor getActorById(int id) {
-        return entityManager.find(Actor.class, id);
+        TypedQuery<Actor> query = entityManager.createQuery(
+                "SELECT a FROM Actor a JOIN FETCH a.films WHERE a.actor_id = :actor_id",
+                Actor.class
+        );
+        query.setParameter("actor_id", id);
+        return query.getSingleResult();
     }
+
 
     public List<Film> getFilmsByActorId(int id){
         TypedQuery<Film> query = entityManager.createQuery(

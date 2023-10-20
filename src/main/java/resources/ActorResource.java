@@ -25,7 +25,6 @@ public class ActorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getActors(@QueryParam("page") @DefaultValue("1") int page) {
         List<Actor> actors = actorService.getFirst10Actors();
-
         List<ActorDTO> actorDTOs = new ArrayList<>();
 
         for (Actor actor : actors) {
@@ -33,13 +32,19 @@ public class ActorResource {
             actorDTO.setId(actor.getActor_id());
             actorDTO.setFirstName(actor.getFirst_name());
             actorDTO.setLastName(actor.getLast_name());
-            actorDTO.setFilms(new FilmsHref("/actors/" + actor.getActor_id() + "/films")); // Beispiel-URL
+
+            List<FilmsHref> filmsLinks = new ArrayList<>();
+            for (Film film : actor.getFilms()) {
+                filmsLinks.add(new FilmsHref("/films/" + film.getFilm_id()));
+            }
+            actorDTO.setFilms(filmsLinks);
 
             actorDTOs.add(actorDTO);
         }
 
         return Response.ok(actorDTOs).build();
     }
+
 
 
 
@@ -66,10 +71,17 @@ public class ActorResource {
         actorDTO.setId(actor.getActor_id());
         actorDTO.setFirstName(actor.getFirst_name());
         actorDTO.setLastName(actor.getLast_name());
-        actorDTO.setFilms(new FilmsHref("/actors/" + actor.getActor_id() + "/films")); // Beispiel-URL
+
+        List<FilmsHref> filmsLinks = new ArrayList<>();
+        for (Film film : actor.getFilms()) {
+            filmsLinks.add(new FilmsHref("/films/" + film.getFilm_id()));
+        }
+        actorDTO.setFilms(filmsLinks);
 
         return Response.ok(actorDTO).build();
     }
+
+
 
     @DELETE
     @Path("/{id}")

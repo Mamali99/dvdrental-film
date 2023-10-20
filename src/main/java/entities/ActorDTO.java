@@ -3,6 +3,8 @@ package entities;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 public class ActorDTO {
@@ -10,7 +12,7 @@ public class ActorDTO {
     private Integer id;
     private String firstName;
     private String lastName;
-    private FilmsHref films;
+    private List<FilmsHref> films;
 
 
 }
