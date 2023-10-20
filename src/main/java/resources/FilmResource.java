@@ -177,10 +177,15 @@ public class FilmResource {
 
     @GET
     @Path("/{id}/categories")
-    public List<String> getCategoriesByFilmId(@PathParam("id") int id) {
-        // Implementierung
-        return new ArrayList<>();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCategoriesByFilmId(@PathParam("id") int id) {
+        List<CategoryDTO> categoryDTOs = filmService.getCategoriesByFilmId(id);
+        if (categoryDTOs == null || categoryDTOs.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).entity("No categories found for Film ID: " + id).build();
+        }
+        return Response.ok(categoryDTOs).build();
     }
+
 
     @PUT
     @Path("/{id}/categories/{category}")

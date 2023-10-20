@@ -1,9 +1,6 @@
 package services;
 
-import entities.Actor;
-import entities.ActorDTO;
-import entities.Film;
-import entities.FilmsHref;
+import entities.*;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
@@ -62,5 +59,24 @@ public class FilmService {
         }
 
         return actorDTOs;
+    }
+
+    public List<CategoryDTO> getCategoriesByFilmId(int id){
+        Film film = entityManager.find(Film.class, id);
+        if (film == null) {
+            return null;
+        }
+
+        List<CategoryDTO> categoryDTOs = new ArrayList<>();
+        for (Category category : film.getCategories()) {
+            CategoryDTO categoryDTO = new CategoryDTO(
+                    category.getCategory_id(),
+                    category.getName(),
+                    category.getLast_update()
+            );
+            categoryDTOs.add(categoryDTO);
+        }
+
+        return categoryDTOs;
     }
 }
