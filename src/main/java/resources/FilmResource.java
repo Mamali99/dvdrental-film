@@ -1,9 +1,6 @@
 package resources;
 
-import entities.Actor;
-import entities.Category;
-import entities.Film;
-import entities.Language;
+import entities.*;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -21,19 +18,43 @@ public class FilmResource {
     @Inject
     FilmService filmService;
 
-
-
-
+    @Transactional
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFilms(@QueryParam("page") @DefaultValue("1") int page) {
         // Implementierung
         List<Film> films = filmService.getFirst20Films();
-        return Response.ok(films).build();
+        List<FilmDTO> filmDTOs = new ArrayList<>();
+
+        for (Film film : films) {
+            FilmDTO filmDTO = new FilmDTO();
+            filmDTO.setId(film.getFilm_id());
+            filmDTO.setTitle(film.getTitle());
+            filmDTO.setDescription(film.getDescription());
+            filmDTO.setLength(film.getLength());
+            filmDTO.setRating(film.getRating());
+            filmDTO.setReleaseYear(film.getRelease_year());
+            filmDTO.setRentalDuration(film.getRental_duration());
+            filmDTO.setRentalRate(film.getRental_rate());
+            filmDTO.setReplacementCost(film.getReplacement_cost());
+            filmDTO.setLanguage(film.getLanguage().getName().trim()); // Annahme, dass der Name des Sprachfelds verwendet wird
+            List<FilmsHref> actorsLinks = new ArrayList<>();
+            for (Actor actor : film.getActors()) {
+                actorsLinks.add(new FilmsHref("/actors/" + actor.getActor_id() + "/films"));
+            }
+            filmDTO.setActorsLinks(actorsLinks);
+
+            List<String> categories = new ArrayList<>();
+            for (Category category : film.getCategories()) {
+                categories.add(category.getName());
+            }
+            filmDTO.setCategories(categories);
+
+            filmDTOs.add(filmDTO);
+        }
+
+        return Response.ok(filmDTOs).build();
     }
-
-
-
 
     @Transactional
     @POST
