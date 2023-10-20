@@ -102,6 +102,13 @@ public class ActorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFilmsByActorId(@PathParam("id") int id) {
         List<Film> films = actorService.getFilmsByActorId(id);
-        return Response.ok(films).build();
+
+        // Konvertieren Sie die Filme in FilmsHref Links
+        List<FilmsHref> filmsLinks = new ArrayList<>();
+        for (Film film : films) {
+            filmsLinks.add(new FilmsHref("/films/" + film.getFilm_id()));
+        }
+
+        return Response.ok(filmsLinks).build();
     }
 }

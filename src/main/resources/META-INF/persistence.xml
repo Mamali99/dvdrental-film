@@ -16,6 +16,8 @@
             <!-- Hibernate-spezifische Eigenschaften, falls benötigt -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.show_sql" value="true"/>
+
+
             <!-- Weitere Eigenschaften... -->
         </properties>
     </persistence-unit>
