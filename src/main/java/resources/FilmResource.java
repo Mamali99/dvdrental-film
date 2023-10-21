@@ -6,7 +6,10 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import services.ActorService;
+import services.CategoryService;
 import services.FilmService;
+import services.LanguageService;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -17,6 +20,15 @@ public class FilmResource {
 
     @Inject
     FilmService filmService;
+
+    @Inject
+    LanguageService languageService;
+
+    @Inject
+    ActorService actorService;
+
+    @Inject
+    CategoryService categoryService;
 
     @Transactional
     @GET
@@ -55,55 +67,77 @@ public class FilmResource {
 
         return Response.ok(filmDTOs).build();
     }
-
     @Transactional
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createFilm(Film film) {
-        // Implementierung
-        if (film.getTitle() == null || film.getTitle().isEmpty()) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Title is required").build();
-        }
-
-        // Beziehungen behandeln
-        if (film.getActors() != null) {
-            for (int i = 0; i < film.getActors().size(); i++) {
-                Actor actor = film.getActors().get(i);
-                if (actor.getActor_id() != null) {
-                    film.getActors().set(i, filmService.getEntityManager().find(Actor.class, actor.getActor_id()));
-                }
-            }
-        }
-        if (film.getCategories() != null) {
-            for (int i = 0; i < film.getCategories().size(); i++) {
-                Category category = film.getCategories().get(i);
-                if (category.getCategory_id() != null) {
-                    film.getCategories().set(i, filmService.getEntityManager().find(Category.class, category.getCategory_id()));
-                }
-            }
-        }
-
-        if (film.getLanguage() != null && film.getLanguage().getLanguage_id() != null) {
-            film.setLanguage(filmService.getEntityManager().find(Language.class, film.getLanguage().getLanguage_id()));
-        }
-
-        // Persistenz
-        try {
-            filmService.getEntityManager().getTransaction().begin();
-            filmService.getEntityManager().persist(film);
-            filmService.getEntityManager().getTransaction().commit();
-        } catch (Exception e) {
-            // Fehlerbehandlung
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error saving the film: " + e.getMessage()).build();
-        }
-
-
+    public Response createFilm(FilmDTO filmDTO) {
+        Film film = filmService.createFilmFromDTO(filmDTO);
         return Response.created(URI.create("/films/" + film.getFilm_id())).build();
     }
 
+    /*
+    @Transactional
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createFilm(FilmDTO filmDTO) {
+        Film film = new Film();
+
+        // Setzen der einfachen Film-Attribute
+        film.setTitle(filmDTO.getTitle());
+        film.setDescription(filmDTO.getDescription());
+        film.setRelease_year(filmDTO.getReleaseYear());
+        film.setRental_duration(filmDTO.getRentalDuration());
+        film.setRental_rate(filmDTO.getRentalRate());
+        film.setLength(filmDTO.getLength());
+        film.setReplacement_cost(filmDTO.getReplacementCost());
+        film.setRating(filmDTO.getRating());
+
+        // Setzen der Sprache für den Film
+        if (filmDTO.getLanguage() != null) {
+            Language language = languageService.getLanguageByName(filmDTO.getLanguage());
+            if (language != null) {
+                film.setLanguage(language);
+            }
+        }
+
+// Hinzufügen von Schauspielern zum Film
+        if (filmDTO.getActors() != null && !filmDTO.getActors().isEmpty()) {
+            for (FilmsHref actorHref : filmDTO.getActors()) {
+                if (actorHref.getHref() != null) {
+                    String actorIdStr = actorHref.getHref().replaceAll("[^0-9]", "");
+                    Integer actorId = Integer.parseInt(actorIdStr);
+                    Actor actor = actorService.getActorById(actorId);
+                    if (actor != null) {
+                        film.getActors().add(actor);
+                    }
+                }
+            }
+        }
+
+        // Hinzufügen von Kategorien zum Film
+        if (filmDTO.getCategories() != null && !filmDTO.getCategories().isEmpty()) {
+            for (String categoryName : filmDTO.getCategories()) {
+                Category category = categoryService.getCategoryByName(categoryName);
+                if (category != null) {
+                    film.getCategories().add(category);
+                }
+            }
+        }
+
+        filmService.createFilm(film);
+
+        return Response.created(URI.create("/films/" + film.getFilm_id())).build();
+
+    }
+
+
+     */
+
     @GET
     @Path("/count")
+    @Produces(MediaType.TEXT_PLAIN)
     public int getFilmCount() {
         return filmService.getFilmCount();
     }

@@ -34,4 +34,12 @@ public class LanguageService {
 
         return languageDTOs;
     }
+
+    public Language getLanguageByName(String language) {
+        Language l = entityManager.createQuery("SELECT l FROM Language l WHERE l.name = :name", Language.class)
+                .setParameter("name", language)
+                .getSingleResult();
+
+        return l;
+    }
 }

@@ -2,6 +2,7 @@ package services;
 
 import entities.Category;
 import entities.CategoryDTO;
+import entities.Language;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
@@ -28,4 +29,10 @@ public class CategoryService {
         return categoryDTOs;
     }
 
+    public Category getCategoryByName(String categoryName) {
+
+        return entityManager.createQuery("SELECT c FROM Category c WHERE c.name = :name", Category.class)
+                .setParameter("name", categoryName)
+                .getSingleResult();
+    }
 }
