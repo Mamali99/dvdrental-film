@@ -7,6 +7,7 @@ import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -54,4 +55,26 @@ public class ActorService {
     public void createActor(Actor actor) {
         entityManager.persist(actor);
     }
+
+    @Transactional
+    public boolean deleteActor(int actorId) {
+        Actor actor = getActorById(actorId);
+
+        if (actor == null) {
+            return false;
+        }
+
+        // Beziehungen zu Filmen entfernen
+        for (Film film : actor.getFilms()) {
+            film.getActors().remove(actor);
+        }
+        actor.getFilms().clear();
+
+        // Actor löschen
+        entityManager.flush();
+        entityManager.remove(actor);
+
+        return true;
+    }
+
 }

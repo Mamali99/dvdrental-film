@@ -82,9 +82,10 @@ public class ActorResource {
 
     @GET
     @Path("/count")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getActorCount() {
         Integer count = actorService.getActorCount();
-        return Response.ok(count).build();
+        return Response.ok(count.toString()).build();
     }
 
     @GET
@@ -112,7 +113,12 @@ public class ActorResource {
     @DELETE
     @Path("/{id}")
     public Response deleteActor(@PathParam("id") int id) {
-        // Implementierung
+        boolean isDeleted = actorService.deleteActor(id);
+
+        if (!isDeleted) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Actor not found").build();
+        }
+
         return Response.noContent().build();
     }
 
