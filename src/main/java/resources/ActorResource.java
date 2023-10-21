@@ -2,13 +2,13 @@ package resources;
 
 import entities.*;
 import jakarta.inject.Inject;
+import jakarta.json.JsonValue;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import services.ActorService;
 import services.FilmService;
-
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,8 +124,8 @@ public class ActorResource {
 
     @PATCH
     @Path("/{id}")
-    public Response updateActor(@PathParam("id") int id, List<String> values) {
-        // Implementierung
+    public Response updateActor(@PathParam("id") int id, List<UpdateRequestActor> updates) {
+        boolean update = actorService.updateActor(id, updates);
         return Response.noContent().build();
     }
     @GET

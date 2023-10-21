@@ -2,8 +2,10 @@ package services;
 
 import entities.Actor;
 import entities.Film;
+import entities.UpdateRequestActor;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Named;
+import jakarta.json.JsonValue;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -74,6 +76,32 @@ public class ActorService {
         entityManager.flush();
         entityManager.remove(actor);
 
+        return true;
+    }
+
+    public boolean updateActor(int id, List<UpdateRequestActor> updates) {
+        Actor actor = getActorById(id);
+
+        if (actor == null) {
+            return false; // Actor nicht gefunden
+        }
+
+        for (UpdateRequestActor update : updates) {
+            switch (update.getKey()) {
+                case "firstName":
+                    actor.setFirst_name(update.getValue());
+                    break;
+                case "lastName":
+                    actor.setLast_name(update.getValue());
+                    break;
+                // Sie können weitere Fälle hinzufügen, um andere Eigenschaften des Actors zu aktualisieren
+                default:
+                    // Unbekannter Schlüssel, Sie können eine Ausnahme auslösen oder ihn einfach ignorieren
+                    break;
+            }
+        }
+
+        entityManager.merge(actor); // Aktualisieren des Actor-Objekts in der Datenbank
         return true;
     }
 
