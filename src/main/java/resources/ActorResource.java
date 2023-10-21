@@ -2,10 +2,12 @@ package resources;
 
 import entities.*;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import services.ActorService;
+import services.FilmService;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -16,6 +18,9 @@ public class ActorResource {
 
     @Inject
     ActorService actorService;
+
+    @Inject
+    FilmService filmService;
 
 
     @GET
@@ -45,9 +50,33 @@ public class ActorResource {
 
 
 
+    @Transactional
     @POST
-    public Response createActor(Actor actor) {
-        // Implementierung
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createActor(ActorDTO actorDTO) {
+        Actor actor = new Actor();
+        //actor.setFilms(new ArrayList<>());
+        actor.setFirst_name(actorDTO.getFirstName());
+        actor.setLast_name(actorDTO.getLastName());
+
+        // Beziehung zu Film basierend auf den href-Werten hinzufügen
+        if (actorDTO.getFilms() != null && !actorDTO.getFilms().isEmpty()) {
+            for (FilmsHref filmHref : actorDTO.getFilms()) {
+                if (filmHref.getHref() != null) {
+                    String filmIdStr = filmHref.getHref().replaceAll("[^0-9]", "");
+                    Integer filmId = Integer.parseInt(filmIdStr);
+                    Film film = filmService.getFilmById(filmId);
+                    if (film != null) {
+                        actor.getFilms().add(film);
+                        film.getActors().add(actor);
+                    }
+                }
+            }
+        }
+
+        actorService.createActor(actor);
+
         return Response.created(URI.create("/actors/" + actor.getActor_id())).build();
     }
 

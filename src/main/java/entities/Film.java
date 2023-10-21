@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -39,7 +40,7 @@ public class Film implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
     @JsonbTransient
-    private List<Actor> actors;
+    private List<Actor> actors = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
@@ -47,7 +48,7 @@ public class Film implements Serializable {
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private List<Category> categories;
+    private List<Category> categories = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "language_id", referencedColumnName = "language_id", insertable = false, updatable = false)

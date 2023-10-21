@@ -51,4 +51,7 @@ public class ActorService {
         return query.getResultList();
     }
 
+    public void createActor(Actor actor) {
+        entityManager.persist(actor);
+    }
 }

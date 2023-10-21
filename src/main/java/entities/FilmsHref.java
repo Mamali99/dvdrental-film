@@ -1,5 +1,7 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +10,8 @@ import lombok.Setter;
 public class FilmsHref {
     private String href;
 
-    public FilmsHref (String href){
+    @JsonCreator
+    public FilmsHref(@JsonProperty("href") String href) {
         this.href = href;
     }
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,5 +27,10 @@ public class Actor implements Serializable {
 
     @JsonbTransient
     @ManyToMany(mappedBy = "actors")
-    private List<Film> films;
+    private List<Film> films = new ArrayList<>();
+
+    @PrePersist
+    public void prePersist() {
+        this.last_update = new Timestamp(System.currentTimeMillis());
+    }
 }
