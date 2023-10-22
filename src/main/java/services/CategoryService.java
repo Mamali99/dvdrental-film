@@ -35,4 +35,8 @@ public class CategoryService {
                 .setParameter("name", categoryName)
                 .getSingleResult();
     }
+
+    public Category getCategoryById(int id){
+        return entityManager.find(Category.class, id);
+    }
 }

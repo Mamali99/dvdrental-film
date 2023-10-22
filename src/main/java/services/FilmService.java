@@ -214,4 +214,29 @@ public class FilmService {
         entityManager.merge(actor);
     }
 
+    @Transactional
+    public void addCategoryToFilm(int filmId, int categoryId) {
+
+        Film film = getFilmById(filmId);
+        Category category = categoryService.getCategoryById(categoryId);
+
+
+        if (film == null || category == null) {
+            throw new IllegalArgumentException("Film oder Kategorie nicht gefunden.");
+        }
+
+        // Überprüfen, ob die Kategorie bereits dem Film zugeordnet ist
+        if (film.getCategories().contains(category)) {
+            throw new IllegalArgumentException("Die Kategorie ist bereits dem Film zugeordnet.");
+        }
+
+
+        film.getCategories().add(category);
+        category.getFilms().add(film);
+
+
+        entityManager.merge(film);
+        entityManager.merge(category);
+    }
+
 }

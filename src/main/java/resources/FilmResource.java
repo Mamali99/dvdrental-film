@@ -166,8 +166,8 @@ public class FilmResource {
 
     @PUT
     @Path("/{id}/categories/{category}")
-    public Response addCategoryToFilm(@PathParam("id") int filmId, @PathParam("category") String category) {
-        // Implementierung
+    public Response addCategoryToFilm(@PathParam("id") int filmId, @PathParam("category") int category) {
+        filmService.addCategoryToFilm(filmId, category);
         return Response.created(URI.create("/films/" + filmId + "/categories")).build();
     }
 }
