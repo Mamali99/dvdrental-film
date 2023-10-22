@@ -186,4 +186,32 @@ public class FilmService {
 
         return categoryDTOs;
     }
+
+    @Transactional
+    public void addActorToFilm(int filmId, int actorId) {
+        // Film und Schauspieler aus der Datenbank abrufen
+        Film film = getFilmById(filmId);
+        Actor actor = actorService.getActorById(actorId);
+
+        // Überprüfen, ob Film und Schauspieler existieren
+        if (film == null || actor == null) {
+            throw new IllegalArgumentException("Film oder Schauspieler nicht gefunden.");
+        }
+
+        // Überprüfen, ob der Schauspieler bereits dem Film zugeordnet ist
+        if (film.getActors().contains(actor)) {
+            throw new IllegalArgumentException("Der Schauspieler ist bereits dem Film zugeordnet.");
+        }
+
+        // Schauspieler zum Film hinzufügen
+        film.getActors().add(actor);
+
+        // Film zur Liste der Filme des Schauspielers hinzufügen
+        actor.getFilms().add(film);
+
+        // Film und Schauspieler in der Datenbank aktualisieren
+        entityManager.merge(film);
+        entityManager.merge(actor);
+    }
+
 }

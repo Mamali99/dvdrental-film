@@ -148,7 +148,7 @@ public class FilmResource {
     @PUT
     @Path("/{id}/actors/{actorId}")
     public Response addActorToFilm(@PathParam("id") int filmId, @PathParam("actorId") int actorId) {
-        // Implementierung
+        filmService.addActorToFilm(filmId, actorId);
         return Response.created(URI.create("/films/" + filmId + "/actors")).build();
     }
 
