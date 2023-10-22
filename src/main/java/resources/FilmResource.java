@@ -67,7 +67,7 @@ public class FilmResource {
 
         return Response.ok(filmDTOs).build();
     }
-    @Transactional
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

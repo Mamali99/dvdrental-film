@@ -9,6 +9,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,7 @@ public class FilmService {
             Language language = languageService.getLanguageByName(filmDTO.getLanguage());
             if (language != null) {
                 film.setLanguage(language);
+                film.setLanguage_id(language.getLanguage_id());
             }
         }
 
@@ -87,16 +89,19 @@ public class FilmService {
                 }
             }
         }
+        film.setLast_update(new Timestamp(System.currentTimeMillis()));
 
         // Überprüfen, ob der Film bereits eine ID hat
         if (film.getFilm_id() != null) {
             throw new IllegalArgumentException("Der Film hat bereits eine ID und sollte nicht erneut erstellt werden.");
         }
 
-        // Speichern des Films in der Datenbank
+
+
+
         entityManager.persist(film);
 
-        // Rückgabe des gespeicherten Films
+
         return film;
     }
 

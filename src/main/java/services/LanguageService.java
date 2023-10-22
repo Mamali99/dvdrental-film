@@ -40,6 +40,8 @@ public class LanguageService {
                 .setParameter("name", language)
                 .getSingleResult();
 
+        System.out.println("\n" + l.getLanguage_id().toString() + "\n");
+
         return l;
     }
 }
