@@ -9,6 +9,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -105,26 +106,40 @@ public class FilmService {
         return film;
     }
 
-    /*
-    @Transactional
-    public Film createFilm(Film film){
-        // Überprüfen, ob der Film bereits eine ID hat (was bedeuten würde, dass er bereits in der Datenbank existiert)
-        if (film.getFilm_id() != null) {
-            throw new IllegalArgumentException("Der Film hat bereits eine ID und sollte nicht erneut erstellt werden.");
-        }
-
-        // Speichern des Films in der Datenbank
-        entityManager.persist(film);
-
-        // Rückgabe des gespeicherten Films
-        return film;
-
-    }
-
-     */
 
     public Film getFilmById(int id) {
         return entityManager.find(Film.class, id);
+    }
+
+    public boolean updateFilm(int id, List<UpdateRequestFilm> updates){
+        Film film = getFilmById(id);
+
+        if (film == null) {
+            return false;
+        }
+
+        for (UpdateRequestFilm update : updates) {
+            switch (update.getKey()) {
+                case "title":
+                    film.setTitle(update.getValue());
+                    break;
+                case "description":
+                    film.setDescription(update.getValue());
+                    break;
+                case "rentalRate":
+                    film.setRental_rate(new BigDecimal(update.getValue()));
+                    break;
+                case "replacementCost":
+                    film.setReplacement_cost(new BigDecimal(update.getValue()));
+                    break;
+                default:
+
+                    break;
+            }
+        }
+
+        entityManager.merge(film);
+        return true;
     }
 
     public List<ActorDTO> getActorsByFilmId(int id) {

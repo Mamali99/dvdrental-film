@@ -76,64 +76,7 @@ public class FilmResource {
         return Response.created(URI.create("/films/" + film.getFilm_id())).build();
     }
 
-    /*
-    @Transactional
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createFilm(FilmDTO filmDTO) {
-        Film film = new Film();
 
-        // Setzen der einfachen Film-Attribute
-        film.setTitle(filmDTO.getTitle());
-        film.setDescription(filmDTO.getDescription());
-        film.setRelease_year(filmDTO.getReleaseYear());
-        film.setRental_duration(filmDTO.getRentalDuration());
-        film.setRental_rate(filmDTO.getRentalRate());
-        film.setLength(filmDTO.getLength());
-        film.setReplacement_cost(filmDTO.getReplacementCost());
-        film.setRating(filmDTO.getRating());
-
-        // Setzen der Sprache für den Film
-        if (filmDTO.getLanguage() != null) {
-            Language language = languageService.getLanguageByName(filmDTO.getLanguage());
-            if (language != null) {
-                film.setLanguage(language);
-            }
-        }
-
-// Hinzufügen von Schauspielern zum Film
-        if (filmDTO.getActors() != null && !filmDTO.getActors().isEmpty()) {
-            for (FilmsHref actorHref : filmDTO.getActors()) {
-                if (actorHref.getHref() != null) {
-                    String actorIdStr = actorHref.getHref().replaceAll("[^0-9]", "");
-                    Integer actorId = Integer.parseInt(actorIdStr);
-                    Actor actor = actorService.getActorById(actorId);
-                    if (actor != null) {
-                        film.getActors().add(actor);
-                    }
-                }
-            }
-        }
-
-        // Hinzufügen von Kategorien zum Film
-        if (filmDTO.getCategories() != null && !filmDTO.getCategories().isEmpty()) {
-            for (String categoryName : filmDTO.getCategories()) {
-                Category category = categoryService.getCategoryByName(categoryName);
-                if (category != null) {
-                    film.getCategories().add(category);
-                }
-            }
-        }
-
-        filmService.createFilm(film);
-
-        return Response.created(URI.create("/films/" + film.getFilm_id())).build();
-
-    }
-
-
-     */
 
     @GET
     @Path("/count")
@@ -186,8 +129,8 @@ public class FilmResource {
 
     @PATCH
     @Path("/{id}")
-    public Response updateFilm(@PathParam("id") int id, List<String> values) {
-        // Implementierung
+    public Response updateFilm(@PathParam("id") int id, List<UpdateRequestFilm> values) {
+        boolean isUpdate = filmService.updateFilm(id, values);
         return Response.noContent().build();
     }
 
