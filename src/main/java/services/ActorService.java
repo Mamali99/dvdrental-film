@@ -2,6 +2,7 @@ package services;
 
 import entities.*;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.json.JsonValue;
 import jakarta.persistence.EntityManager;
@@ -18,6 +19,9 @@ public class ActorService {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Inject
+    FilmService filmService;
 
     public List<Actor> getFirst10Actors() {
         TypedQuery<Actor> query = entityManager.createQuery(
@@ -50,6 +54,30 @@ public class ActorService {
         return actorDTOs;
     }
 
+    @Transactional
+    public Actor createActorFromDTO(ActorDTO actorDTO) {
+        Actor actor = new Actor();
+        actor.setFirst_name(actorDTO.getFirstName());
+        actor.setLast_name(actorDTO.getLastName());
+
+        // Beziehung zu Film basierend auf den href-Werten hinzufügen
+        if (actorDTO.getFilms() != null && !actorDTO.getFilms().isEmpty()) {
+            for (FilmsHref filmHref : actorDTO.getFilms()) {
+                if (filmHref.getHref() != null) {
+                    String filmIdStr = filmHref.getHref().replaceAll("[^0-9]", "");
+                    Integer filmId = Integer.parseInt(filmIdStr);
+                    Film film = filmService.getFilmById(filmId);
+                    if (film != null) {
+                        actor.getFilms().add(film);
+                        film.getActors().add(actor);
+                    }
+                }
+            }
+        }
+
+        entityManager.persist(actor);
+        return actor;
+    }
 
     public Integer getActorCount() {
         TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(a) FROM Actor a", Long.class);
@@ -75,9 +103,7 @@ public class ActorService {
         return query.getResultList();
     }
 
-    public void createActor(Actor actor) {
-        entityManager.persist(actor);
-    }
+
 
     @Transactional
     public boolean deleteActor(int actorId) {

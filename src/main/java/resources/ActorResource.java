@@ -31,33 +31,12 @@ public class ActorResource {
     }
 
 
-    @Transactional
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createActor(ActorDTO actorDTO) {
-        Actor actor = new Actor();
-        //actor.setFilms(new ArrayList<>());
-        actor.setFirst_name(actorDTO.getFirstName());
-        actor.setLast_name(actorDTO.getLastName());
-
-        // Beziehung zu Film basierend auf den href-Werten hinzufügen
-        if (actorDTO.getFilms() != null && !actorDTO.getFilms().isEmpty()) {
-            for (FilmsHref filmHref : actorDTO.getFilms()) {
-                if (filmHref.getHref() != null) {
-                    String filmIdStr = filmHref.getHref().replaceAll("[^0-9]", "");
-                    Integer filmId = Integer.parseInt(filmIdStr);
-                    Film film = filmService.getFilmById(filmId);
-                    if (film != null) {
-                        actor.getFilms().add(film);
-                        film.getActors().add(actor);
-                    }
-                }
-            }
-        }
-
-        actorService.createActor(actor);
-
+        Actor actor = actorService.createActorFromDTO(actorDTO);
         return Response.created(URI.create("/actors/" + actor.getActor_id())).build();
     }
 
