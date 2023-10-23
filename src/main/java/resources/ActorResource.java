@@ -90,57 +90,10 @@ public class ActorResource {
     @Path("/{id}/films")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFilmsByActorId(@PathParam("id") int id) {
-        Actor actor = actorService.getActorById(id);
-        List<FilmDTO> filmDTOs = new ArrayList<>();
-
-        for (Film film : actor.getFilms()) {
-            FilmDTO filmDTO = new FilmDTO();
-            filmDTO.setId(film.getFilm_id());
-            filmDTO.setTitle(film.getTitle());
-            filmDTO.setDescription(film.getDescription());
-            filmDTO.setLength(film.getLength());
-            filmDTO.setRating(film.getRating());
-            filmDTO.setReleaseYear(film.getRelease_year());
-            filmDTO.setRentalDuration(film.getRental_duration());
-            filmDTO.setRentalRate(film.getRental_rate());
-            filmDTO.setReplacementCost(film.getReplacement_cost());
-            filmDTO.setLanguage(film.getLanguage().getName().trim());
-
-            List<FilmsHref> actorsLinks = new ArrayList<>();
-            for (Actor actorInFilm : film.getActors()) {
-                actorsLinks.add(new FilmsHref("/actors/" + actorInFilm.getActor_id() + "/films"));
-            }
-            filmDTO.setActors(actorsLinks);
-
-            List<String> categories = new ArrayList<>();
-            for (Category category : film.getCategories()) {
-                categories.add(category.getName());
-            }
-            filmDTO.setCategories(categories);
-
-            filmDTOs.add(filmDTO);
-        }
-
+        List<FilmDTO> filmDTOs = actorService.getFilmsByActorId(id);
         return Response.ok(filmDTOs).build();
     }
 
-    /*
-    @GET
-    @Path("/{id}/films")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getFilmsByActorId(@PathParam("id") int id) {
-        Actor actor = actorService.getActorById(id);
-        List<FilmDTO> filmDTOs = new ArrayList<>();
 
-        List<FilmsHref> filmsLinks = new ArrayList<>();
-        for (Film film : actor.getFilms()) {
-            filmsLinks.add(new FilmsHref("/films/" + film.getFilm_id()));
-        }
-
-
-        return Response.ok(filmsLinks).build();
-    }
-
-     */
 
 }

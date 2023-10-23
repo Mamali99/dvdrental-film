@@ -115,15 +115,6 @@ public class ActorService {
     }
 
 
-    public List<Actor> getFilmsByActorId(int id) {
-        TypedQuery<Actor> query = entityManager.createQuery(
-                "SELECT a FROM Actor a JOIN FETCH a.films",
-                Actor.class
-        );
-        query.setMaxResults(10);
-        return query.getResultList();
-    }
-
 
 
     @Transactional
@@ -171,5 +162,41 @@ public class ActorService {
         entityManager.merge(actor);
         return true;
     }
+
+    public List<FilmDTO> getFilmsByActorId(int id) {
+        Actor actor = getActorById(id);
+        List<FilmDTO> filmDTOs = new ArrayList<>();
+
+        for (Film film : actor.getFilms()) {
+            FilmDTO filmDTO = new FilmDTO();
+            filmDTO.setId(film.getFilm_id());
+            filmDTO.setTitle(film.getTitle());
+            filmDTO.setDescription(film.getDescription());
+            filmDTO.setLength(film.getLength());
+            filmDTO.setRating(film.getRating());
+            filmDTO.setReleaseYear(film.getRelease_year());
+            filmDTO.setRentalDuration(film.getRental_duration());
+            filmDTO.setRentalRate(film.getRental_rate());
+            filmDTO.setReplacementCost(film.getReplacement_cost());
+            filmDTO.setLanguage(film.getLanguage().getName().trim());
+
+            List<FilmsHref> actorsLinks = new ArrayList<>();
+            for (Actor actorInFilm : film.getActors()) {
+                actorsLinks.add(new FilmsHref("/actors/" + actorInFilm.getActor_id() + "/films"));
+            }
+            filmDTO.setActors(actorsLinks);
+
+            List<String> categories = new ArrayList<>();
+            for (Category category : film.getCategories()) {
+                categories.add(category.getName());
+            }
+            filmDTO.setCategories(categories);
+
+            filmDTOs.add(filmDTO);
+        }
+
+        return filmDTOs;
+    }
+
 
 }
