@@ -19,8 +19,6 @@ public class ActorResource {
     @Inject
     ActorService actorService;
 
-    @Inject
-    FilmService filmService;
 
 
     @GET
