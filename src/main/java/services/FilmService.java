@@ -73,14 +73,8 @@ public class FilmService {
     }
 
 
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
 
-    public int getFilmCount() {
-        TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(f) FROM Film f", Long.class);
-        return query.getSingleResult().intValue();
-    }
+
     @Transactional
     public Film createFilmFromDTO(FilmDTO filmDTO) {
         Film film = new Film();
@@ -143,10 +137,51 @@ public class FilmService {
         return film;
     }
 
+    public int getFilmCount() {
+        TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(f) FROM Film f", Long.class);
+        return query.getSingleResult().intValue();
+    }
+
 
     public Film getFilmById(int id) {
         return entityManager.find(Film.class, id);
     }
+
+    public FilmDTO getFilmDTOById(int id) {
+        Film film = getFilmById(id);
+        if (film == null) {
+            return null;
+        }
+
+        FilmDTO filmDTO = new FilmDTO();
+        filmDTO.setId(film.getFilm_id());
+        filmDTO.setTitle(film.getTitle());
+        filmDTO.setDescription(film.getDescription());
+        filmDTO.setLength(film.getLength());
+        filmDTO.setRating(film.getRating());
+        filmDTO.setReleaseYear(film.getRelease_year());
+        filmDTO.setRentalDuration(film.getRental_duration());
+        filmDTO.setRentalRate(film.getRental_rate());
+        filmDTO.setReplacementCost(film.getReplacement_cost());
+        filmDTO.setLanguage(film.getLanguage().getName().trim());
+
+        List<FilmsHref> actorsLinks = new ArrayList<>();
+        for (Actor actor : film.getActors()) {
+            actorsLinks.add(new FilmsHref("/actors/" + actor.getActor_id() + "/films"));
+        }
+        filmDTO.setActors(actorsLinks);
+
+        List<String> categories = new ArrayList<>();
+        for (Category category : film.getCategories()) {
+            categories.add(category.getName());
+        }
+        filmDTO.setCategories(categories);
+
+        return filmDTO;
+    }
+
+
+
 
     public boolean updateFilm(int id, List<UpdateRequestFilm> updates){
         Film film = getFilmById(id);
