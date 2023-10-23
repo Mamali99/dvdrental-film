@@ -26,28 +26,9 @@ public class ActorResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getActors(@QueryParam("page") @DefaultValue("1") int page) {
-        List<Actor> actors = actorService.getFirst10Actors();
-        List<ActorDTO> actorDTOs = new ArrayList<>();
-
-        for (Actor actor : actors) {
-            ActorDTO actorDTO = new ActorDTO();
-            actorDTO.setId(actor.getActor_id());
-            actorDTO.setFirstName(actor.getFirst_name());
-            actorDTO.setLastName(actor.getLast_name());
-
-            List<FilmsHref> filmsLinks = new ArrayList<>();
-            for (Film film : actor.getFilms()) {
-                filmsLinks.add(new FilmsHref("/films/" + film.getFilm_id()));
-            }
-            actorDTO.setFilms(filmsLinks);
-
-            actorDTOs.add(actorDTO);
-        }
-
+        List<ActorDTO> actorDTOs = actorService.getActorDTOs(page);
         return Response.ok(actorDTOs).build();
     }
-
-
 
 
     @Transactional

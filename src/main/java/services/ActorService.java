@@ -1,8 +1,6 @@
 package services;
 
-import entities.Actor;
-import entities.Film;
-import entities.UpdateRequestActor;
+import entities.*;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Named;
 import jakarta.json.JsonValue;
@@ -11,6 +9,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Named
@@ -27,6 +26,28 @@ public class ActorService {
         );
         query.setMaxResults(10);
         return query.getResultList();
+    }
+
+    public List<ActorDTO> getActorDTOs(int page) {
+        List<Actor> actors = getFirst10Actors();
+        List<ActorDTO> actorDTOs = new ArrayList<>();
+
+        for (Actor actor : actors) {
+            ActorDTO actorDTO = new ActorDTO();
+            actorDTO.setId(actor.getActor_id());
+            actorDTO.setFirstName(actor.getFirst_name());
+            actorDTO.setLastName(actor.getLast_name());
+
+            List<FilmsHref> filmsLinks = new ArrayList<>();
+            for (Film film : actor.getFilms()) {
+                filmsLinks.add(new FilmsHref("/films/" + film.getFilm_id()));
+            }
+            actorDTO.setFilms(filmsLinks);
+
+            actorDTOs.add(actorDTO);
+        }
+
+        return actorDTOs;
     }
 
 
