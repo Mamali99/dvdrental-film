@@ -93,6 +93,27 @@ public class ActorService {
         return query.getSingleResult();
     }
 
+    public ActorDTO getActorDTOById(int id) {
+        Actor actor = getActorById(id);
+
+        if (actor == null) {
+            return null;
+        }
+
+        ActorDTO actorDTO = new ActorDTO();
+        actorDTO.setId(actor.getActor_id());
+        actorDTO.setFirstName(actor.getFirst_name());
+        actorDTO.setLastName(actor.getLast_name());
+
+        List<FilmsHref> filmsLinks = new ArrayList<>();
+        for (Film film : actor.getFilms()) {
+            filmsLinks.add(new FilmsHref("/films/" + film.getFilm_id()));
+        }
+        actorDTO.setFilms(filmsLinks);
+
+        return actorDTO;
+    }
+
 
     public List<Actor> getFilmsByActorId(int id) {
         TypedQuery<Actor> query = entityManager.createQuery(

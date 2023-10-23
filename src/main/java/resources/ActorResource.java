@@ -52,18 +52,11 @@ public class ActorResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getActorById(@PathParam("id") int id) {
-        Actor actor = actorService.getActorById(id);
+        ActorDTO actorDTO = actorService.getActorDTOById(id);
 
-        ActorDTO actorDTO = new ActorDTO();
-        actorDTO.setId(actor.getActor_id());
-        actorDTO.setFirstName(actor.getFirst_name());
-        actorDTO.setLastName(actor.getLast_name());
-
-        List<FilmsHref> filmsLinks = new ArrayList<>();
-        for (Film film : actor.getFilms()) {
-            filmsLinks.add(new FilmsHref("/films/" + film.getFilm_id()));
+        if (actorDTO == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
-        actorDTO.setFilms(filmsLinks);
 
         return Response.ok(actorDTO).build();
     }
