@@ -78,8 +78,13 @@ public class ActorResource {
     @PATCH
     @Path("/{id}")
     public Response updateActor(@PathParam("id") int id, List<UpdateRequestActor> updates) {
-        boolean update = actorService.updateActor(id, updates);
-        return Response.noContent().build();
+        boolean updateSuccessful = actorService.updateActor(id, updates);
+
+        if (updateSuccessful) {
+            return Response.noContent().build(); // 204 No Content
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).build(); // 404 Not Found
+        }
     }
     @GET
     @Path("/{id}/films")

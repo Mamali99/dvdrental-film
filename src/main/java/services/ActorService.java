@@ -148,6 +148,7 @@ public class ActorService {
     }
 
     public boolean updateActor(int id, List<UpdateRequestActor> updates) {
+        // Hier muss ich noch prüfen, wenn kein actor gefunden wird, was sollte zurückgeben
         Actor actor = getActorById(id);
 
         if (actor == null) {
@@ -162,14 +163,12 @@ public class ActorService {
                 case "lastName":
                     actor.setLast_name(update.getValue());
                     break;
-                // Sie können weitere Fälle hinzufügen, um andere Eigenschaften des Actors zu aktualisieren
                 default:
-                    // Unbekannter Schlüssel, Sie können eine Ausnahme auslösen oder ihn einfach ignorieren
                     break;
             }
         }
 
-        entityManager.merge(actor); // Aktualisieren des Actor-Objekts in der Datenbank
+        entityManager.merge(actor);
         return true;
     }
 
