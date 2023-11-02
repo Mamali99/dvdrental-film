@@ -26,17 +26,20 @@ public class ActorService {
     @Inject
     FilmService filmService;
 
-    public List<Actor> getFirst10Actors() {
+    public List<Actor> getActorsByPage(int page) {
         TypedQuery<Actor> query = entityManager.createQuery(
                 "SELECT a FROM Actor a JOIN FETCH a.films",
                 Actor.class
         );
-        query.setMaxResults(10);
+        int pageSize = 10;
+        query.setFirstResult((page - 1) * pageSize);
+        query.setMaxResults(pageSize);
+
         return query.getResultList();
     }
 
     public List<ActorDTO> getActorDTOs(int page) {
-        List<Actor> actors = getFirst10Actors();
+        List<Actor> actors = getActorsByPage(page);
         List<ActorDTO> actorDTOs = new ArrayList<>();
 
         for (Actor actor : actors) {
