@@ -55,8 +55,9 @@ public class ActorService {
         Actor actor = convertFromDTO(actorDTO);
         if (actor != null) {
             entityManager.persist(actor);
+            return actor;
         }
-        return actor;
+        return null;
     }
 
     public Integer getActorCount() {
@@ -195,6 +196,8 @@ public class ActorService {
                     if (film != null) {
                         actor.getFilms().add(film);
                         film.getActors().add(actor);
+                    }else {
+                        return null;
                     }
                 }
             }

@@ -5,8 +5,10 @@ import dto.FilmDTO;
 import entities.*;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 import services.ActorService;
 import utils.UpdateRequestActor;
 
@@ -17,7 +19,10 @@ import java.util.List;
 public class ActorResource {
 
     @Inject
-    ActorService actorService;
+    private ActorService actorService;
+
+    @Context
+    private UriInfo uriInfo;
 
 
 
@@ -35,7 +40,11 @@ public class ActorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createActor(ActorDTO actorDTO) {
         Actor actor = actorService.createActorFromDTO(actorDTO);
-        return Response.created(URI.create("http://localhost:8081/actors/" + actor.getActor_id())).build();
+        if (actor == null || actor.getActor_id() == null) {
+            return Response.serverError().entity("Fehler beim Erstellen des Schauspielers").build();
+        }
+        URI actorUri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(actor.getActor_id())).build();
+        return Response.created(actorUri).build();
     }
 
     @GET
