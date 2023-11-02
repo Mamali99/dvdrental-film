@@ -10,8 +10,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.UriInfo;
 import utils.FilmsHref;
 import utils.UpdateRequestActor;
 
@@ -52,31 +50,6 @@ public class ActorService {
         return actorDTOs;
     }
 
-
-    /*
-    public List<ActorDTO> getActorDTOs(int page) {
-        List<Actor> actors = getActorsByPage(page);
-        List<ActorDTO> actorDTOs = new ArrayList<>();
-
-        for (Actor actor : actors) {
-            ActorDTO actorDTO = new ActorDTO();
-            actorDTO.setId(actor.getActor_id());
-            actorDTO.setFirstName(actor.getFirst_name());
-            actorDTO.setLastName(actor.getLast_name());
-
-            List<FilmsHref> filmsLinks = new ArrayList<>();
-            for (Film film : actor.getFilms()) {
-                filmsLinks.add(new FilmsHref("http://localhost:8081/films/" + film.getFilm_id()));
-            }
-            actorDTO.setFilms(filmsLinks);
-
-            actorDTOs.add(actorDTO);
-        }
-
-        return actorDTOs;
-    }
-
-     */
     @Transactional
     public Actor createActorFromDTO(ActorDTO actorDTO) {
         Actor actor = convertFromDTO(actorDTO);
@@ -85,35 +58,6 @@ public class ActorService {
         }
         return actor;
     }
-
-
-    /*
-    @Transactional
-    public Actor createActorFromDTO(ActorDTO actorDTO) {
-        Actor actor = new Actor();
-        actor.setFirst_name(actorDTO.getFirstName());
-        actor.setLast_name(actorDTO.getLastName());
-
-        // Beziehung zu Film basierend auf den href-Werten hinzufügen
-        if (actorDTO.getFilms() != null && !actorDTO.getFilms().isEmpty()) {
-            for (FilmsHref filmHref : actorDTO.getFilms()) {
-                if (filmHref.getHref() != null) {
-                    String filmIdStr = filmHref.getHref().replaceAll("[^0-9]", "");
-                    Integer filmId = Integer.parseInt(filmIdStr);
-                    Film film = filmService.getFilmById(filmId);
-                    if (film != null) {
-                        actor.getFilms().add(film);
-                        film.getActors().add(actor);
-                    }
-                }
-            }
-        }
-
-        entityManager.persist(actor);
-        return actor;
-    }
-
-     */
 
     public Integer getActorCount() {
         TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(a) FROM Actor a", Long.class);
@@ -132,33 +76,6 @@ public class ActorService {
         Actor actor = getActorById(id);
         return convertToDTO(actor);
     }
-
-
-    /*
-    public ActorDTO getActorDTOById(int id) {
-        Actor actor = getActorById(id);
-
-        if (actor == null) {
-            return null;
-        }
-
-        ActorDTO actorDTO = new ActorDTO();
-        actorDTO.setId(actor.getActor_id());
-        actorDTO.setFirstName(actor.getFirst_name());
-        actorDTO.setLastName(actor.getLast_name());
-
-        List<FilmsHref> filmsLinks = new ArrayList<>();
-        for (Film film : actor.getFilms()) {
-            filmsLinks.add(new FilmsHref("/films/" + film.getFilm_id()));
-        }
-        actorDTO.setFilms(filmsLinks);
-
-        return actorDTO;
-    }
-
-     */
-
-
 
 
     @Transactional
