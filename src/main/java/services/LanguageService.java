@@ -1,8 +1,7 @@
 package services;
 
-import entities.Film;
 import entities.Language;
-import entities.LanguageDTO;
+import dto.LanguageDTO;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;

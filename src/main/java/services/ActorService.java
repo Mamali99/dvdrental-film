@@ -1,14 +1,17 @@
 package services;
 
+import dto.ActorDTO;
+import dto.FilmDTO;
 import entities.*;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.json.JsonValue;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import utils.FilmsHref;
+import utils.UpdateRequestActor;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,16 +1,16 @@
 package resources;
 
+import dto.ActorDTO;
+import dto.FilmDTO;
 import entities.*;
 import jakarta.inject.Inject;
-import jakarta.json.JsonValue;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import services.ActorService;
-import services.FilmService;
+import utils.UpdateRequestActor;
+
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("/actors")

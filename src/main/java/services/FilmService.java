@@ -1,5 +1,8 @@
 package services;
 
+import dto.ActorDTO;
+import dto.CategoryDTO;
+import dto.FilmDTO;
 import entities.*;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
@@ -8,9 +11,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import utils.FilmsHref;
+import utils.UpdateRequestFilm;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;

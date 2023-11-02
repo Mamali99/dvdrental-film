@@ -1,18 +1,17 @@
 package resources;
 
+import dto.ActorDTO;
+import dto.CategoryDTO;
+import dto.FilmDTO;
 import entities.*;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import services.ActorService;
-import services.CategoryService;
 import services.FilmService;
-import services.LanguageService;
+import utils.UpdateRequestFilm;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("/films")

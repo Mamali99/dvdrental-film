@@ -1,5 +1,6 @@
-package entities;
+package dto;
 
+import utils.FilmsHref;
 import lombok.Getter;
 import lombok.Setter;
 
