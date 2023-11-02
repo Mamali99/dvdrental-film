@@ -47,7 +47,7 @@ public class ActorService {
 
             List<FilmsHref> filmsLinks = new ArrayList<>();
             for (Film film : actor.getFilms()) {
-                filmsLinks.add(new FilmsHref("/films/" + film.getFilm_id()));
+                filmsLinks.add(new FilmsHref("http://localhost:8081/films/" + film.getFilm_id()));
             }
             actorDTO.setFilms(filmsLinks);
 
