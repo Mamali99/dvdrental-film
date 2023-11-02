@@ -35,7 +35,7 @@ public class ActorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createActor(ActorDTO actorDTO) {
         Actor actor = actorService.createActorFromDTO(actorDTO);
-        return Response.created(URI.create("/actors/" + actor.getActor_id())).build();
+        return Response.created(URI.create("http://localhost:8081/actors/" + actor.getActor_id())).build();
     }
 
     @GET

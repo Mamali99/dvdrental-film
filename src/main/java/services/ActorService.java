@@ -37,7 +37,20 @@ public class ActorService {
 
         return query.getResultList();
     }
+    public List<ActorDTO> getActorDTOs(int page) {
+        List<Actor> actors = getActorsByPage(page);
+        List<ActorDTO> actorDTOs = new ArrayList<>();
 
+        for (Actor actor : actors) {
+            ActorDTO actorDTO = convertToDTO(actor);
+            actorDTOs.add(actorDTO);
+        }
+
+        return actorDTOs;
+    }
+
+
+    /*
     public List<ActorDTO> getActorDTOs(int page) {
         List<Actor> actors = getActorsByPage(page);
         List<ActorDTO> actorDTOs = new ArrayList<>();
@@ -60,6 +73,18 @@ public class ActorService {
         return actorDTOs;
     }
 
+     */
+    @Transactional
+    public Actor createActorFromDTO(ActorDTO actorDTO) {
+        Actor actor = convertFromDTO(actorDTO);
+        if (actor != null) {
+            entityManager.persist(actor);
+        }
+        return actor;
+    }
+
+
+    /*
     @Transactional
     public Actor createActorFromDTO(ActorDTO actorDTO) {
         Actor actor = new Actor();
@@ -85,6 +110,8 @@ public class ActorService {
         return actor;
     }
 
+     */
+
     public Integer getActorCount() {
         TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(a) FROM Actor a", Long.class);
         return query.getSingleResult().intValue();
@@ -98,7 +125,13 @@ public class ActorService {
         query.setParameter("actor_id", id);
         return query.getSingleResult();
     }
+    public ActorDTO getActorDTOById(int id) {
+        Actor actor = getActorById(id);
+        return convertToDTO(actor);
+    }
 
+
+    /*
     public ActorDTO getActorDTOById(int id) {
         Actor actor = getActorById(id);
 
@@ -119,6 +152,8 @@ public class ActorService {
 
         return actorDTO;
     }
+
+     */
 
 
 
@@ -203,6 +238,51 @@ public class ActorService {
 
         return filmDTOs;
     }
+
+    public ActorDTO convertToDTO(Actor actor) {
+        if (actor == null) {
+            return null;
+        }
+        ActorDTO actorDTO = new ActorDTO();
+        actorDTO.setId(actor.getActor_id());
+        actorDTO.setFirstName(actor.getFirst_name());
+        actorDTO.setLastName(actor.getLast_name());
+
+        List<FilmsHref> filmsLinks = new ArrayList<>();
+        for (Film film : actor.getFilms()) {
+            filmsLinks.add(new FilmsHref("http://localhost:8081/films/" + film.getFilm_id()));
+        }
+        actorDTO.setFilms(filmsLinks);
+
+        return actorDTO;
+    }
+
+    @Transactional
+    public Actor convertFromDTO(ActorDTO actorDTO) {
+        if (actorDTO == null) {
+            return null;
+        }
+        Actor actor = new Actor();
+        actor.setFirst_name(actorDTO.getFirstName());
+        actor.setLast_name(actorDTO.getLastName());
+
+        if (actorDTO.getFilms() != null && !actorDTO.getFilms().isEmpty()) {
+            for (FilmsHref filmHref : actorDTO.getFilms()) {
+                if (filmHref.getHref() != null) {
+                    String filmIdStr = filmHref.getHref().replaceAll("[^0-9]", "");
+                    Integer filmId = Integer.parseInt(filmIdStr);
+                    Film film = filmService.getFilmById(filmId);
+                    if (film != null) {
+                        actor.getFilms().add(film);
+                        film.getActors().add(actor);
+                    }
+                }
+            }
+        }
+        return actor;
+    }
+
+
 
 
 }
