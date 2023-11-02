@@ -68,7 +68,7 @@ public class ActorService {
 
     public Actor getActorById(int id) {
         TypedQuery<Actor> query = entityManager.createQuery(
-                "SELECT a FROM Actor a JOIN FETCH a.films WHERE a.actor_id = :actor_id",
+                "SELECT a FROM Actor a LEFT JOIN FETCH a.films WHERE a.actor_id = :actor_id",
                 Actor.class
         );
         query.setParameter("actor_id", id);
@@ -78,6 +78,7 @@ public class ActorService {
             return null;
         }
     }
+
     public ActorDTO getActorDTOById(int id) {
         Actor actor = getActorById(id);
         return convertToDTO(actor);
@@ -92,14 +93,10 @@ public class ActorService {
             return false;
         }
 
-        // Beziehungen zu Filmen entfernen
-        for (Film film : actor.getFilms()) {
-            film.getActors().remove(actor);
+        // Überprüfen, ob der Schauspieler Filme hat
+        if (!actor.getFilms().isEmpty()) {
+            return false;
         }
-        actor.getFilms().clear();
-
-        // Actor löschen
-        entityManager.flush();
         entityManager.remove(actor);
 
         return true;

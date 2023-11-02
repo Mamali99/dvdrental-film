@@ -73,13 +73,24 @@ public class ActorResource {
     @DELETE
     @Path("/{id}")
     public Response deleteActor(@PathParam("id") int id) {
-        boolean isDeleted = actorService.deleteActor(id);
+        Actor actor = actorService.getActorById(id);
 
-        if (!isDeleted) {
-            return Response.status(Response.Status.NOT_FOUND).entity("Actor not found").build();
+        // Schauspieler nicht gefunden
+        if (actor == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.noContent().build();
+        // Überprüfen, ob der Schauspieler Filme hat
+        if (!actor.getFilms().isEmpty()) {
+            return Response.status(Response.Status.FORBIDDEN).build(); // HTTP 403
+        }
+
+        boolean isDeleted = actorService.deleteActor(id);
+        if (!isDeleted) {
+            return Response.serverError().build();
+        }
+
+        return Response.noContent().build(); // HTTP 204
     }
 
     @PATCH
