@@ -10,6 +10,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.UriInfo;
 import utils.FilmsHref;
 import utils.UpdateRequestActor;
 
@@ -24,7 +26,8 @@ public class ActorService {
     private EntityManager entityManager;
 
     @Inject
-    FilmService filmService;
+    private FilmService filmService;
+
 
     public List<Actor> getActorsByPage(int page) {
         TypedQuery<Actor> query = entityManager.createQuery(
@@ -223,7 +226,7 @@ public class ActorService {
 
             List<FilmsHref> actorsLinks = new ArrayList<>();
             for (Actor actorInFilm : film.getActors()) {
-                actorsLinks.add(new FilmsHref("/actors/" + actorInFilm.getActor_id() + "/films"));
+                actorsLinks.add(new FilmsHref("http://localhost:8081/actors/" + actorInFilm.getActor_id() + "/films"));
             }
             filmDTO.setActors(actorsLinks);
 
