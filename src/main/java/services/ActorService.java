@@ -103,7 +103,7 @@ public class ActorService {
     }
 
     public boolean updateActor(int id, List<UpdateRequestActor> updates) {
-        // Hier muss ich noch prüfen, wenn kein actor gefunden wird, was sollte zurückgeben
+
         Actor actor = getActorById(id);
 
         if (actor == null) {
@@ -129,6 +129,9 @@ public class ActorService {
 
     public List<FilmDTO> getFilmsByActorId(int id) {
         Actor actor = getActorById(id);
+        if(actor==null)
+            return null;
+
         List<FilmDTO> filmDTOs = new ArrayList<>();
 
         for (Film film : actor.getFilms()) {

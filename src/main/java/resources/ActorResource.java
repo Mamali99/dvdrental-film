@@ -109,7 +109,11 @@ public class ActorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFilmsByActorId(@PathParam("id") int id) {
         List<FilmDTO> filmDTOs = actorService.getFilmsByActorId(id);
-        return Response.ok(filmDTOs).build();
+        if(filmDTOs==null){
+            return Response.status(Response.Status.NOT_FOUND).build(); // 404 Not Found
+        }
+        else
+            return Response.ok(filmDTOs).build();
     }
 
 
