@@ -15,6 +15,7 @@ import utils.UpdateRequestFilm;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/films")
 public class FilmResource {
@@ -97,8 +98,14 @@ public class FilmResource {
     @PUT
     @Path("/{id}/actors/{actorId}")
     public Response addActorToFilm(@PathParam("id") int filmId, @PathParam("actorId") int actorId) {
-        filmService.addActorToFilm(filmId, actorId);
-        return Response.created(URI.create("/films/" + filmId + "/actors")).build();
+        List<URI> listOfActors = filmService.addActorToFilm(filmId, actorId);
+        if(listOfActors == null || listOfActors.isEmpty()){
+            return Response.status(Response.Status.NOT_FOUND).entity("Film / actor not found for ID: " + filmId + " and " + actorId).build();
+        }
+        // Konvertiert die Liste von URIs zu einem String, der durch Kommas getrennt ist
+        String actorLocations = String.join(",", listOfActors.stream().map(URI::toString).collect(Collectors.toList()));
+        return Response.created(URI.create("/films/" + filmId + "/actors")).header("Location", actorLocations).build();
+
     }
 
     @GET

@@ -15,9 +15,12 @@ import utils.FilmsHref;
 import utils.UpdateRequestFilm;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Named
 @Stateless
 public class FilmService {
@@ -167,12 +170,12 @@ public class FilmService {
     }
 
     @Transactional
-    public void addActorToFilm(int filmId, int actorId) {
-        // Film und Schauspieler aus der Datenbank abrufen
+    public List<URI> addActorToFilm(int filmId, int actorId) {
+
         Film film = getFilmById(filmId);
         Actor actor = actorService.getActorById(actorId);
 
-        // Überprüfen, ob Film und Schauspieler existieren
+
         if (film == null || actor == null) {
             throw new IllegalArgumentException("Film oder Schauspieler nicht gefunden.");
         }
@@ -191,6 +194,13 @@ public class FilmService {
         // Film und Schauspieler in der Datenbank aktualisieren
         entityManager.merge(film);
         entityManager.merge(actor);
+
+        List<URI> actorURIs = film.getActors().stream()
+                .map(a -> URI.create("http:localhost:8081/films/" + filmId + "/actors/" + a.getActor_id()))
+                .collect(Collectors.toList());
+
+        return actorURIs;
+
     }
 
     @Transactional
