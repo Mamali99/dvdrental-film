@@ -13,7 +13,7 @@ import services.CategoryService;
 public class CategoryResource {
 
     @Inject
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     //List of categories textual form
     @GET

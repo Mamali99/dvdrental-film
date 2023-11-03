@@ -26,23 +26,34 @@ public class FilmService {
     private EntityManager entityManager;
 
     @Inject
-    LanguageService languageService;
+    private LanguageService languageService;
 
     @Inject
-    ActorService actorService;
+    private ActorService actorService;
 
     @Inject
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
+    /*
     public List<Film> getFirst20Films() {
         TypedQuery<Film> query = entityManager.createQuery("SELECT f FROM Film f", Film.class);
         query.setMaxResults(20);
         return query.getResultList();
     }
 
+     */
+
+    public List<Film> getFilmsByPage(int page){
+        int startIndex = (page - 1) * 20;
+        TypedQuery<Film> query = entityManager.createQuery("SELECT f FROM Film f ORDER BY f.film_id ASC", Film.class);
+        query.setFirstResult(startIndex);
+        query.setMaxResults(20);
+        return query.getResultList();
+    }
+
     @Transactional
     public List<FilmDTO> getFilmDTOs(int page) {
-        List<Film> films = getFirst20Films();
+        List<Film> films = getFilmsByPage(page);
         List<FilmDTO> filmDTOs = new ArrayList<>();
 
         for (Film film : films) {
@@ -60,7 +71,7 @@ public class FilmService {
 
             List<FilmsHref> actorsLinks = new ArrayList<>();
             for (Actor actor : film.getActors()) {
-                actorsLinks.add(new FilmsHref("/actors/" + actor.getActor_id() + "/films"));
+                actorsLinks.add(new FilmsHref("http://localhost:8081/actors/" + actor.getActor_id() + "/films"));
             }
             filmDTO.setActors(actorsLinks);
 

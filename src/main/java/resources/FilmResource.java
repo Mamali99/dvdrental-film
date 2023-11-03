@@ -18,7 +18,7 @@ import java.util.List;
 public class FilmResource {
 
     @Inject
-    FilmService filmService;
+    private FilmService filmService;
 
 
 
