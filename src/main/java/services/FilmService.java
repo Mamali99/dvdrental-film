@@ -141,19 +141,7 @@ public class FilmService {
 
         List<ActorDTO> actorDTOs = new ArrayList<>();
         for (Actor actor : film.getActors()) {
-            ActorDTO actorDTO = new ActorDTO();
-            actorDTO.setId(actor.getActor_id());
-            actorDTO.setFirstName(actor.getFirst_name());
-            actorDTO.setLastName(actor.getLast_name());
-
-            // Setzen der Filme, in denen der Schauspieler gespielt hat
-            List<FilmsHref> filmsLinks = new ArrayList<>();
-            for (Film actorFilm : actor.getFilms()) {
-                filmsLinks.add(new FilmsHref("/films/" + actorFilm.getFilm_id()));
-            }
-            actorDTO.setFilms(filmsLinks);
-
-            actorDTOs.add(actorDTO);
+            actorDTOs.add(actorService.convertToDTO(actor));
         }
 
         return actorDTOs;
