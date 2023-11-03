@@ -196,7 +196,7 @@ public class FilmService {
         entityManager.merge(actor);
 
         List<URI> actorURIs = film.getActors().stream()
-                .map(a -> URI.create("http:localhost:8081/films/" + filmId + "/actors/" + a.getActor_id()))
+                .map(a -> URI.create("http://localhost:8081/films/" + filmId + "/actors/" + a.getActor_id()))
                 .collect(Collectors.toList());
 
         return actorURIs;
@@ -204,14 +204,14 @@ public class FilmService {
     }
 
     @Transactional
-    public void addCategoryToFilm(int filmId, int categoryId) {
+    public List<URI> addCategoryToFilm(int filmId, int categoryId) {
 
         Film film = getFilmById(filmId);
         Category category = categoryService.getCategoryById(categoryId);
 
 
         if (film == null || category == null) {
-            throw new IllegalArgumentException("Film oder Kategorie nicht gefunden.");
+            throw new NotFoundException("Film oder Category nicht gefunden.");
         }
 
         // Überprüfen, ob die Kategorie bereits dem Film zugeordnet ist
@@ -226,6 +226,12 @@ public class FilmService {
 
         entityManager.merge(film);
         entityManager.merge(category);
+
+        List<URI> actorURIs = film.getCategories().stream()
+                .map(a -> URI.create("http://localhost:8081/films/" + filmId + "/categories/" + a.getCategory_id()))
+                .collect(Collectors.toList());
+
+        return actorURIs;
     }
 
     /**

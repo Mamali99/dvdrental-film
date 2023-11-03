@@ -123,7 +123,13 @@ public class FilmResource {
     @PUT
     @Path("/{id}/categories/{category}")
     public Response addCategoryToFilm(@PathParam("id") int filmId, @PathParam("category") int category) {
-        filmService.addCategoryToFilm(filmId, category);
-        return Response.created(URI.create("/films/" + filmId + "/categories")).build();
+        try{
+            List<URI> listOfCategories = filmService.addCategoryToFilm(filmId, category);
+            String categoryLocations = String.join(",", listOfCategories.stream().map(URI::toString).collect(Collectors.toList()));
+            return Response.created(URI.create("/films/" + filmId + "/categories")).header("Location", categoryLocations).build();
+        } catch (NotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+        }
+
     }
 }
