@@ -17,7 +17,7 @@ public class LanguageResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getLanguages() {
-        List<LanguageDTO> languages = languageService.getLanguages();
+        List<String> languages = languageService.getLanguages();
         return Response.ok(languages).build();
     }
 

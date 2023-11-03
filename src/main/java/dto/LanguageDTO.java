@@ -1,4 +1,5 @@
 package dto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,8 @@ import java.sql.Timestamp;
 public class LanguageDTO {
     private Integer languageId;
     private String name;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp lastUpdate;
 
     public LanguageDTO() {

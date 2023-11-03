@@ -17,6 +17,7 @@ public class LanguageService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /*
     public List<LanguageDTO> getLanguages() {
         TypedQuery<Language> query = entityManager.createQuery("SELECT l FROM Language l", Language.class);
 
@@ -33,6 +34,20 @@ public class LanguageService {
 
         return languageDTOs;
     }
+
+     */
+    public List<String> getLanguages() {
+        TypedQuery<Language> query = entityManager.createQuery("SELECT l FROM Language l", Language.class);
+        List<Language> languages = query.getResultList();
+
+        List<String> languageNames = new ArrayList<>();
+        for (Language language : languages) {
+            languageNames.add(language.getName().trim());
+        }
+
+        return languageNames;
+    }
+
 
     public Language getLanguageByName(String language) {
         Language l = entityManager.createQuery("SELECT l FROM Language l WHERE l.name = :name", Language.class)
