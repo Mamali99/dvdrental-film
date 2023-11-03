@@ -15,9 +15,10 @@ import java.util.List;
 public class CategoryService {
 
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
 
+    /*
     public List<CategoryDTO> getCategory(){
         List<Category> categories = entityManager.createQuery("SELECT c FROM Category c", Category.class).getResultList();
         List<CategoryDTO> categoryDTOs = new ArrayList<>();
@@ -26,6 +27,17 @@ public class CategoryService {
         }
         return categoryDTOs;
     }
+
+     */
+    public List<String> getCategory(){
+        List<Category> categories = entityManager.createQuery("SELECT c FROM Category c", Category.class).getResultList();
+        List<String> categoryNames = new ArrayList<>();
+        for (Category category : categories) {
+            categoryNames.add(category.getName());
+        }
+        return categoryNames;
+    }
+
 
     public Category getCategoryByName(String categoryName) {
 
