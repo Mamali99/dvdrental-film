@@ -68,8 +68,11 @@ public class FilmService {
     @Transactional
     public Film createFilmFromDTO(FilmDTO filmDTO) {
         Film film = convertDTOToFilm(filmDTO);
-        entityManager.persist(film);
-        return film;
+        if(film != null){
+            entityManager.persist(film);
+            return film;
+        }
+        return null;
     }
 
     public int getFilmCount() {
@@ -303,6 +306,8 @@ public class FilmService {
             if (language != null) {
                 film.setLanguage(language);
                 film.setLanguage_id(language.getLanguage_id());
+            } else{
+                return null;
             }
         }
 
@@ -314,6 +319,8 @@ public class FilmService {
                     Actor actor = actorService.getActorById(actorId);
                     if (actor != null) {
                         film.getActors().add(actor);
+                    }else{
+                        return null;
                     }
                 }
             }
@@ -324,6 +331,8 @@ public class FilmService {
                 Category category = categoryService.getCategoryByName(categoryName);
                 if (category != null) {
                     film.getCategories().add(category);
+                }else{
+                    return null;
                 }
             }
         }

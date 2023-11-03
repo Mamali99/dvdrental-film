@@ -6,8 +6,10 @@ import dto.FilmDTO;
 import entities.*;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 import services.FilmService;
 import utils.UpdateRequestFilm;
 
@@ -20,6 +22,8 @@ public class FilmResource {
     @Inject
     private FilmService filmService;
 
+    @Context
+    private UriInfo uriInfo;
 
 
     @GET
@@ -34,7 +38,12 @@ public class FilmResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createFilm(FilmDTO filmDTO) {
         Film film = filmService.createFilmFromDTO(filmDTO);
-        return Response.created(URI.create("/films/" + film.getFilm_id())).build();
+        if(film == null){
+            return Response.serverError().entity("Fehler beim Erstellen des Films").build();
+        }
+        URI actorUri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(film.getFilm_id())).build();
+        return Response.created(actorUri).build();
+
     }
 
 
