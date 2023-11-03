@@ -54,36 +54,11 @@ public class FilmService {
     @Transactional
     public List<FilmDTO> getFilmDTOs(int page) {
         List<Film> films = getFilmsByPage(page);
+
         List<FilmDTO> filmDTOs = new ArrayList<>();
-
-        for (Film film : films) {
-            FilmDTO filmDTO = new FilmDTO();
-            filmDTO.setId(film.getFilm_id());
-            filmDTO.setTitle(film.getTitle());
-            filmDTO.setDescription(film.getDescription());
-            filmDTO.setLength(film.getLength());
-            filmDTO.setRating(film.getRating());
-            filmDTO.setReleaseYear(film.getRelease_year());
-            filmDTO.setRentalDuration(film.getRental_duration());
-            filmDTO.setRentalRate(film.getRental_rate());
-            filmDTO.setReplacementCost(film.getReplacement_cost());
-            filmDTO.setLanguage(film.getLanguage().getName().trim());
-
-            List<FilmsHref> actorsLinks = new ArrayList<>();
-            for (Actor actor : film.getActors()) {
-                actorsLinks.add(new FilmsHref("http://localhost:8081/actors/" + actor.getActor_id() + "/films"));
-            }
-            filmDTO.setActors(actorsLinks);
-
-            List<String> categories = new ArrayList<>();
-            for (Category category : film.getCategories()) {
-                categories.add(category.getName());
-            }
-            filmDTO.setCategories(categories);
-
-            filmDTOs.add(filmDTO);
+        for (Film film: films){
+            filmDTOs.add(convertFilmToDTO(film));
         }
-
         return filmDTOs;
     }
 
@@ -92,63 +67,8 @@ public class FilmService {
 
     @Transactional
     public Film createFilmFromDTO(FilmDTO filmDTO) {
-        Film film = new Film();
-
-        // Setzen der einfachen Film-Attribute
-        film.setTitle(filmDTO.getTitle());
-        film.setDescription(filmDTO.getDescription());
-        film.setRelease_year(filmDTO.getReleaseYear());
-        film.setRental_duration(filmDTO.getRentalDuration());
-        film.setRental_rate(filmDTO.getRentalRate());
-        film.setLength(filmDTO.getLength());
-        film.setReplacement_cost(filmDTO.getReplacementCost());
-        film.setRating(filmDTO.getRating());
-
-        // Setzen der Sprache für den Film
-        if (filmDTO.getLanguage() != null) {
-            Language language = languageService.getLanguageByName(filmDTO.getLanguage());
-            if (language != null) {
-                film.setLanguage(language);
-                film.setLanguage_id(language.getLanguage_id());
-            }
-        }
-
-        // Hinzufügen von Schauspielern zum Film
-        if (filmDTO.getActors() != null && !filmDTO.getActors().isEmpty()) {
-            for (FilmsHref actorHref : filmDTO.getActors()) {
-                if (actorHref.getHref() != null) {
-                    String actorIdStr = actorHref.getHref().replaceAll("[^0-9]", "");
-                    Integer actorId = Integer.parseInt(actorIdStr);
-                    Actor actor = actorService.getActorById(actorId);
-                    if (actor != null) {
-                        film.getActors().add(actor);
-                    }
-                }
-            }
-        }
-
-        // Hinzufügen von Kategorien zum Film
-        if (filmDTO.getCategories() != null && !filmDTO.getCategories().isEmpty()) {
-            for (String categoryName : filmDTO.getCategories()) {
-                Category category = categoryService.getCategoryByName(categoryName);
-                if (category != null) {
-                    film.getCategories().add(category);
-                }
-            }
-        }
-        film.setLast_update(new Timestamp(System.currentTimeMillis()));
-
-        // Überprüfen, ob der Film bereits eine ID hat
-        if (film.getFilm_id() != null) {
-            throw new IllegalArgumentException("Der Film hat bereits eine ID und sollte nicht erneut erstellt werden.");
-        }
-
-
-
-
+        Film film = convertDTOToFilm(filmDTO);
         entityManager.persist(film);
-
-
         return film;
     }
 
@@ -325,5 +245,93 @@ public class FilmService {
         entityManager.merge(film);
         entityManager.merge(category);
     }
+
+    /**
+     * Konvertiert ein Film-Objekt in ein FilmDTO-Objekt.
+     *
+     * @param film Das Film-Objekt, das konvertiert werden soll.
+     * @return Das konvertierte FilmDTO-Objekt.
+     */
+    public FilmDTO convertFilmToDTO(Film film) {
+        FilmDTO filmDTO = new FilmDTO();
+        filmDTO.setId(film.getFilm_id());
+        filmDTO.setTitle(film.getTitle());
+        filmDTO.setDescription(film.getDescription());
+        filmDTO.setLength(film.getLength());
+        filmDTO.setRating(film.getRating());
+        filmDTO.setReleaseYear(film.getRelease_year());
+        filmDTO.setRentalDuration(film.getRental_duration());
+        filmDTO.setRentalRate(film.getRental_rate());
+        filmDTO.setReplacementCost(film.getReplacement_cost());
+        filmDTO.setLanguage(film.getLanguage().getName().trim());
+
+        List<FilmsHref> actorsLinks = new ArrayList<>();
+        for (Actor actor : film.getActors()) {
+            actorsLinks.add(new FilmsHref("http://localhost:8081/actors/" + actor.getActor_id() + "/films"));
+        }
+        filmDTO.setActors(actorsLinks);
+
+        List<String> categories = new ArrayList<>();
+        for (Category category : film.getCategories()) {
+            categories.add(category.getName());
+        }
+        filmDTO.setCategories(categories);
+
+        return filmDTO;
+    }
+
+
+    /**
+     * Konvertiert ein FilmDTO-Objekt in ein Film-Objekt.
+     *
+     * @param filmDTO Das FilmDTO-Objekt, das konvertiert werden soll.
+     * @return Das konvertierte Film-Objekt.
+     */
+    public Film convertDTOToFilm(FilmDTO filmDTO) {
+        Film film = new Film();
+        film.setTitle(filmDTO.getTitle());
+        film.setDescription(filmDTO.getDescription());
+        film.setRelease_year(filmDTO.getReleaseYear());
+        film.setRental_duration(filmDTO.getRentalDuration());
+        film.setRental_rate(filmDTO.getRentalRate());
+        film.setLength(filmDTO.getLength());
+        film.setReplacement_cost(filmDTO.getReplacementCost());
+        film.setRating(filmDTO.getRating());
+
+        if (filmDTO.getLanguage() != null) {
+            Language language = languageService.getLanguageByName(filmDTO.getLanguage());
+            if (language != null) {
+                film.setLanguage(language);
+                film.setLanguage_id(language.getLanguage_id());
+            }
+        }
+
+        if (filmDTO.getActors() != null) {
+            for (FilmsHref actorHref : filmDTO.getActors()) {
+                if (actorHref.getHref() != null) {
+                    String actorIdStr = actorHref.getHref().replaceAll("[^0-9]", "");
+                    Integer actorId = Integer.parseInt(actorIdStr);
+                    Actor actor = actorService.getActorById(actorId);
+                    if (actor != null) {
+                        film.getActors().add(actor);
+                    }
+                }
+            }
+        }
+
+        if (filmDTO.getCategories() != null) {
+            for (String categoryName : filmDTO.getCategories()) {
+                Category category = categoryService.getCategoryByName(categoryName);
+                if (category != null) {
+                    film.getCategories().add(category);
+                }
+            }
+        }
+        film.setLast_update(new Timestamp(System.currentTimeMillis()));
+
+        return film;
+
+    }
+
 
 }
