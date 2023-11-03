@@ -11,6 +11,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
 import utils.FilmsHref;
 import utils.UpdateRequestFilm;
 
@@ -175,9 +176,8 @@ public class FilmService {
         Film film = getFilmById(filmId);
         Actor actor = actorService.getActorById(actorId);
 
-
         if (film == null || actor == null) {
-            throw new IllegalArgumentException("Film oder Schauspieler nicht gefunden.");
+            throw new NotFoundException("Film oder Schauspieler nicht gefunden.");
         }
 
         // Überprüfen, ob der Schauspieler bereits dem Film zugeordnet ist

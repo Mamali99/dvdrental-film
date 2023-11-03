@@ -98,14 +98,14 @@ public class FilmResource {
     @PUT
     @Path("/{id}/actors/{actorId}")
     public Response addActorToFilm(@PathParam("id") int filmId, @PathParam("actorId") int actorId) {
-        List<URI> listOfActors = filmService.addActorToFilm(filmId, actorId);
-        if(listOfActors == null || listOfActors.isEmpty()){
-            return Response.status(Response.Status.NOT_FOUND).entity("Film / actor not found for ID: " + filmId + " and " + actorId).build();
+        try {
+            List<URI> listOfActors = filmService.addActorToFilm(filmId, actorId);
+            // Konvertiert die Liste von URIs zu einem String, der durch Kommas getrennt ist
+            String actorLocations = String.join(",", listOfActors.stream().map(URI::toString).collect(Collectors.toList()));
+            return Response.created(URI.create("/films/" + filmId + "/actors")).header("Location", actorLocations).build();
+        } catch (NotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         }
-        // Konvertiert die Liste von URIs zu einem String, der durch Kommas getrennt ist
-        String actorLocations = String.join(",", listOfActors.stream().map(URI::toString).collect(Collectors.toList()));
-        return Response.created(URI.create("/films/" + filmId + "/actors")).header("Location", actorLocations).build();
-
     }
 
     @GET
