@@ -123,8 +123,14 @@ public class FilmService {
             }
         }
 
-        entityManager.merge(film);
-        return true;
+        try {
+            entityManager.merge(film);
+            return true;
+        } catch (Exception e) {
+            // Protokollierung des Fehlers
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public List<ActorDTO> getActorsByFilmId(int id) {

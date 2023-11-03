@@ -76,6 +76,10 @@ public class FilmResource {
     @Path("/{id}")
     public Response updateFilm(@PathParam("id") int id, List<UpdateRequestFilm> values) {
         boolean isUpdate = filmService.updateFilm(id, values);
+
+        if(!isUpdate) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Film not found or there is a problem with the update for ID: " + id).build();
+        }
         return Response.noContent().build();
     }
 
