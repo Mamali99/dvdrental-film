@@ -79,9 +79,11 @@ public class FilmResource {
             boolean inventories = inventoryServiceClient.getInventoriesByFilmId(id);
             if(inventories){
                 filmService.deleteFilm(id);
+                return Response.noContent().build(); // Statuscode 204
+            }else {
+                System.out.println("Der Film kann nicht gelöscht werden....");
+                return Response.status(Response.Status.NOT_FOUND).build();
             }
-            System.out.println("Der Film kann nicht gelöscht werden....");
-            return null;
     }
 
 

@@ -33,7 +33,7 @@ public class Film implements Serializable {
 
 
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "film_actor",
             joinColumns = @JoinColumn(name = "film_id"),
@@ -42,7 +42,7 @@ public class Film implements Serializable {
     @JsonbTransient
     private List<Actor> actors = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "film_category",
             joinColumns = @JoinColumn(name = "film_id"),
