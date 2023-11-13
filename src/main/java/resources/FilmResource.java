@@ -3,6 +3,7 @@ package resources;
 import dto.ActorDTO;
 import dto.CategoryDTO;
 import dto.FilmDTO;
+import dto.InventoryDTO;
 import entities.*;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -11,6 +12,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 import services.FilmService;
+import utils.InventoryServiceClient;
 import utils.UpdateRequestFilm;
 
 import java.net.URI;
@@ -25,6 +27,9 @@ public class FilmResource {
 
     @Context
     private UriInfo uriInfo;
+
+    @Inject
+    private InventoryServiceClient inventoryServiceClient;
 
 
     @GET
@@ -70,8 +75,17 @@ public class FilmResource {
     @DELETE
     @Path("/{id}")
     public Response deleteFilm(@PathParam("id") int id) {
-        return null;
+
+            boolean inventories = inventoryServiceClient.getInventoriesByFilmId(id);
+            if(inventories){
+                filmService.deleteFilm(id);
+            }
+            System.out.println("Der Film kann nicht gelöscht werden....");
+            return null;
     }
+
+
+
 
     @PATCH
     @Path("/{id}")

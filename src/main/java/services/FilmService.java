@@ -328,4 +328,13 @@ public class FilmService {
     }
 
 
+    @Transactional
+    public boolean deleteFilm(int id) {
+        Film film = getFilmById(id);
+        if (film == null) {
+            return false;
+        }
+        entityManager.remove(film);
+        return true;
+    }
 }
