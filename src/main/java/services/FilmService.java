@@ -20,6 +20,8 @@ import java.net.URI;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Named
@@ -295,7 +297,9 @@ public class FilmService {
                 return null;
             }
         }
+        Pattern pattern = Pattern.compile("/actors/(\\d+)/films"); // Regex, um die ID vor '/films' zu finden
 
+/*
         if (filmDTO.getActors() != null) {
             for (FilmsHref actorHref : filmDTO.getActors()) {
                 if (actorHref.getHref() != null) {
@@ -311,6 +315,23 @@ public class FilmService {
             }
         }
 
+ */
+        if (filmDTO.getActors() != null) {
+            for (FilmsHref actorHref : filmDTO.getActors()) {
+                if (actorHref.getHref() != null) {
+                    Matcher matcher = pattern.matcher(actorHref.getHref());
+                    if (matcher.find()) {
+                        Integer actorId = Integer.parseInt(matcher.group(1)); // Die erste Gruppe enthält die ID
+                        Actor actor = actorService.getActorById(actorId);
+                        if (actor != null) {
+                            film.getActors().add(actor);
+                        } else {
+                            return null; // Falls der Schauspieler nicht gefunden wird
+                        }
+                    }
+                }
+            }
+        }
         if (filmDTO.getCategories() != null) {
             for (String categoryName : filmDTO.getCategories()) {
                 Category category = categoryService.getCategoryByName(categoryName);
