@@ -16,6 +16,8 @@ import utils.UpdateRequestActor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Named
 @Stateless
@@ -183,6 +185,7 @@ public class ActorService {
         return actorDTO;
     }
 
+    /*
     @Transactional
     public Actor convertFromDTO(ActorDTO actorDTO) {
         if (actorDTO == null) {
@@ -211,6 +214,37 @@ public class ActorService {
     }
 
 
+     */
+    @Transactional
+    public Actor convertFromDTO(ActorDTO actorDTO) {
+        if (actorDTO == null) {
+            return null;
+        }
+        Actor actor = new Actor();
+        actor.setFirst_name(actorDTO.getFirstName());
+        actor.setLast_name(actorDTO.getLastName());
+
+        Pattern pattern = Pattern.compile("(\\d+)$"); // Regex, um die Zahlen am Ende des Strings zu finden
+
+        if (actorDTO.getFilms() != null && !actorDTO.getFilms().isEmpty()) {
+            for (FilmsHref filmHref : actorDTO.getFilms()) {
+                if (filmHref.getHref() != null) {
+                    Matcher matcher = pattern.matcher(filmHref.getHref());
+                    if (matcher.find()) {
+                        Integer filmId = Integer.parseInt(matcher.group());
+                        Film film = filmService.getFilmById(filmId);
+                        if (film != null) {
+                            actor.getFilms().add(film);
+                            film.getActors().add(actor);
+                        } else {
+                            return null;
+                        }
+                    }
+                }
+            }
+        }
+        return actor;
+    }
 
 
 }
