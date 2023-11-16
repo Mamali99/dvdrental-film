@@ -5,10 +5,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Timestamp;
 
+
 public class CategoryDTO {
     private Integer categoryId;
     private String name;
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+
+    //Ich muss noch @JsonFormat Annotation weg machen.
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp lastUpdate;
 
 
@@ -17,7 +20,10 @@ public class CategoryDTO {
         this.categoryId = categoryId;
         this.name = name;
         this.lastUpdate = lastUpdate;
+
     }
+
+
 
     public Integer getCategoryId() {
         return categoryId;
@@ -42,4 +48,6 @@ public class CategoryDTO {
     public void setLastUpdate(Timestamp lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
+
+
 }
