@@ -1,7 +1,6 @@
 package services;
 
 import entities.Category;
-import dto.CategoryDTO;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
@@ -18,17 +17,6 @@ public class CategoryService {
     private EntityManager entityManager;
 
 
-    /*
-    public List<CategoryDTO> getCategory(){
-        List<Category> categories = entityManager.createQuery("SELECT c FROM Category c", Category.class).getResultList();
-        List<CategoryDTO> categoryDTOs = new ArrayList<>();
-        for (Category category : categories) {
-            categoryDTOs.add(new CategoryDTO(category.getCategory_id(), category.getName(), category.getLast_update()));
-        }
-        return categoryDTOs;
-    }
-
-     */
     public List<String> getCategory(){
         List<Category> categories = entityManager.createQuery("SELECT c FROM Category c", Category.class).getResultList();
         List<String> categoryNames = new ArrayList<>();

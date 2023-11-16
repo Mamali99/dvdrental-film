@@ -40,14 +40,6 @@ public class FilmService {
     @Inject
     private CategoryService categoryService;
 
-    /*
-    public List<Film> getFirst20Films() {
-        TypedQuery<Film> query = entityManager.createQuery("SELECT f FROM Film f", Film.class);
-        query.setMaxResults(20);
-        return query.getResultList();
-    }
-
-     */
 
     public List<Film> getFilmsByPage(int page){
         int startIndex = (page - 1) * 20;

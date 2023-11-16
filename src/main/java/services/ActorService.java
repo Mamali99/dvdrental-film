@@ -185,36 +185,6 @@ public class ActorService {
         return actorDTO;
     }
 
-    /*
-    @Transactional
-    public Actor convertFromDTO(ActorDTO actorDTO) {
-        if (actorDTO == null) {
-            return null;
-        }
-        Actor actor = new Actor();
-        actor.setFirst_name(actorDTO.getFirstName());
-        actor.setLast_name(actorDTO.getLastName());
-
-        if (actorDTO.getFilms() != null && !actorDTO.getFilms().isEmpty()) {
-            for (FilmsHref filmHref : actorDTO.getFilms()) {
-                if (filmHref.getHref() != null) {
-                    String filmIdStr = filmHref.getHref().replaceAll("[^0-9]", "");
-                    Integer filmId = Integer.parseInt(filmIdStr);
-                    Film film = filmService.getFilmById(filmId);
-                    if (film != null) {
-                        actor.getFilms().add(film);
-                        film.getActors().add(actor);
-                    }else {
-                        return null;
-                    }
-                }
-            }
-        }
-        return actor;
-    }
-
-
-     */
     @Transactional
     public Actor convertFromDTO(ActorDTO actorDTO) {
         if (actorDTO == null) {
