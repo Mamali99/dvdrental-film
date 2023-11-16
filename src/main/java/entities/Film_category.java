@@ -2,14 +2,10 @@ package entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.sql.Timestamp;
 import java.util.Objects;
 
-@Setter
-@Getter
+
 @Entity
 public class Film_category {
     @Id
@@ -30,5 +26,29 @@ public class Film_category {
     @Override
     public int hashCode() {
         return Objects.hash(film_id, category_id);
+    }
+
+    public Integer getFilm_id() {
+        return film_id;
+    }
+
+    public void setFilm_id(Integer film_id) {
+        this.film_id = film_id;
+    }
+
+    public Integer getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(Integer category_id) {
+        this.category_id = category_id;
+    }
+
+    public Timestamp getLast_update() {
+        return last_update;
+    }
+
+    public void setLast_update(Timestamp last_update) {
+        this.last_update = last_update;
     }
 }

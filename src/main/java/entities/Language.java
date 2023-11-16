@@ -2,14 +2,11 @@ package entities;
 
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-@Getter
-@Setter
+
 @Entity
 public class Language {
     @Id
@@ -22,4 +19,36 @@ public class Language {
     @JsonbTransient
     @OneToMany(mappedBy = "language")
     private List<Film> films;
+
+    public Integer getLanguage_id() {
+        return language_id;
+    }
+
+    public void setLanguage_id(Integer language_id) {
+        this.language_id = language_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Timestamp getLast_update() {
+        return last_update;
+    }
+
+    public void setLast_update(Timestamp last_update) {
+        this.last_update = last_update;
+    }
+
+    public List<Film> getFilms() {
+        return films;
+    }
+
+    public void setFilms(List<Film> films) {
+        this.films = films;
+    }
 }
