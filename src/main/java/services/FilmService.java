@@ -299,23 +299,7 @@ public class FilmService {
         }
         Pattern pattern = Pattern.compile("/actors/(\\d+)/films"); // Regex, um die ID vor '/films' zu finden
 
-/*
-        if (filmDTO.getActors() != null) {
-            for (FilmsHref actorHref : filmDTO.getActors()) {
-                if (actorHref.getHref() != null) {
-                    String actorIdStr = actorHref.getHref().replaceAll("[^0-9]", "");
-                    Integer actorId = Integer.parseInt(actorIdStr);
-                    Actor actor = actorService.getActorById(actorId);
-                    if (actor != null) {
-                        film.getActors().add(actor);
-                    }else{
-                        return null;
-                    }
-                }
-            }
-        }
 
- */
         if (filmDTO.getActors() != null) {
             for (FilmsHref actorHref : filmDTO.getActors()) {
                 if (actorHref.getHref() != null) {

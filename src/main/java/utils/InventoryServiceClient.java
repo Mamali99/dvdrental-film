@@ -38,25 +38,6 @@ public class InventoryServiceClient {
             return false;
         }
 
-/*
-        try {
-            //Response response = target.request(MediaType.APPLICATION_JSON).get();
-
-            // Ausgabe des Statuscodes und der Antwort
-            System.out.println("Statuscode der Antwort: " + response.getStatus());
-            System.out.println("Antwortnachricht: " + response.readEntity(String.class));
-
-            if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-                return response.readEntity(new GenericType<List<InventoryDTO>>() {});
-            } else {
-                throw new WebApplicationException("Fehler beim Abrufen der Inventare", response.getStatus());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new WebApplicationException("Verbindungsfehler beim Abrufen der Inventare", e);
-        }
-
- */
     }
 
 }
