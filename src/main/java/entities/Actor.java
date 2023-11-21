@@ -22,7 +22,7 @@ public class Actor implements Serializable {
     private Timestamp last_update;
 
 
-    @JsonbTransient
+    //@JsonbTransient
     @ManyToMany(mappedBy = "actors")
     private List<Film> films = new ArrayList<>();
 

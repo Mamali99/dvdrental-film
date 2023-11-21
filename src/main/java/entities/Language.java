@@ -16,7 +16,7 @@ public class Language {
     private String name;
     private Timestamp last_update;
 
-    @JsonbTransient
+    //@JsonbTransient
     @OneToMany(mappedBy = "language")
     private List<Film> films;
 
