@@ -1,6 +1,5 @@
 package entities;
 
-import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 
 import java.io.Serializable;

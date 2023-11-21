@@ -1,17 +1,15 @@
 package utils;
 
-import dto.InventoryDTO;
+
 import jakarta.inject.Named;
-import jakarta.ws.rs.WebApplicationException;
+
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.GenericType;
+
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Named
 public class InventoryServiceClient {
