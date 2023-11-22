@@ -3,7 +3,6 @@ package resources;
 import dto.ActorDTO;
 import dto.CategoryDTO;
 import dto.FilmDTO;
-import dto.InventoryDTO;
 import entities.*;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -45,7 +44,7 @@ public class FilmResource {
     public Response createFilm(FilmDTO filmDTO) {
         Film film = filmService.createFilmFromDTO(filmDTO);
         if(film == null){
-            return Response.serverError().entity("Fehler beim Erstellen des Films").build();
+            return Response.serverError().entity("Error in creating the film.").build();
         }
         URI actorUri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(film.getFilm_id())).build();
         return Response.created(actorUri).build();
@@ -81,7 +80,7 @@ public class FilmResource {
                 filmService.deleteFilm(id);
                 return Response.noContent().build(); // Statuscode 204
             }else {
-                System.out.println("Der Film kann nicht gelöscht werden....");
+                System.out.println("The film cannot be deleted....");
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
     }

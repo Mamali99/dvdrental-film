@@ -171,12 +171,12 @@ public class FilmService {
         Actor actor = actorService.getActorById(actorId);
 
         if (film == null || actor == null) {
-            throw new NotFoundException("Film oder Schauspieler nicht gefunden.");
+            throw new NotFoundException("Film or actor not found.");
         }
 
         // Überprüfen, ob der Schauspieler bereits dem Film zugeordnet ist
         if (film.getActors().contains(actor)) {
-            throw new IllegalArgumentException("Der Schauspieler ist bereits dem Film zugeordnet.");
+            throw new IllegalArgumentException("The actor is already assigned to the film.");
         }
 
         // Schauspieler zum Film hinzufügen
@@ -205,12 +205,12 @@ public class FilmService {
 
 
         if (film == null || category == null) {
-            throw new NotFoundException("Film oder Category nicht gefunden.");
+            throw new NotFoundException("Film or category not found.");
         }
 
         // Überprüfen, ob die Kategorie bereits dem Film zugeordnet ist
         if (film.getCategories().contains(category)) {
-            throw new IllegalArgumentException("Die Kategorie ist bereits dem Film zugeordnet.");
+            throw new IllegalArgumentException("The category is already assigned to the film.");
         }
 
 

@@ -41,7 +41,7 @@ public class ActorResource {
     public Response createActor(ActorDTO actorDTO) {
         Actor actor = actorService.createActorFromDTO(actorDTO);
         if (actor == null || actor.getActor_id() == null) {
-            return Response.serverError().entity("Fehler beim Erstellen des Schauspielers").build();
+            return Response.serverError().entity("Error in creating the actor.").build();
         }
         URI actorUri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(actor.getActor_id())).build();
         return Response.created(actorUri).build();

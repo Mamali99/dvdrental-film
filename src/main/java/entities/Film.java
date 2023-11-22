@@ -35,7 +35,7 @@ public class Film implements Serializable {
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
-    //@JsonbTransient
+
     private List<Actor> actors = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

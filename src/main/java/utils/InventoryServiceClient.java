@@ -25,9 +25,6 @@ public class InventoryServiceClient {
 
         WebTarget target = client.target(STORE_SERVICE_URL + filmId);
 
-        // Ausgabe der angeforderten URL
-        System.out.println("Angeforderte URL: " + target.getUri().toString());
-
         Response response = target.request(MediaType.APPLICATION_JSON).get();
         if (response.getStatus() == Response.Status.NOT_FOUND.getStatusCode()) {
             return true;

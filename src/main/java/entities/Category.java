@@ -16,7 +16,6 @@ public class Category {
     private String name;
     private Timestamp last_update;
 
-    //@JsonbTransient
     @ManyToMany(mappedBy = "categories")
     private List<Film> films;
 

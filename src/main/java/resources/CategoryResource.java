@@ -15,11 +15,10 @@ public class CategoryResource {
     @Inject
     private CategoryService categoryService;
 
-    //List of categories textual form
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCategory() {
-
         return Response.ok(categoryService.getCategory()).build();
     }
 }

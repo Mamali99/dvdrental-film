@@ -3,7 +3,7 @@ package dto;
 import utils.FilmsHref;
 
 import java.util.List;
-//@JsonPropertyOrder({"id", "firstName", "lastName", "films"})
+
 public class ActorDTO {
 
     private Integer id;

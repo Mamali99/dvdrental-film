@@ -3,7 +3,6 @@ package dto;
 import utils.FilmHref;
 import utils.StoreHref;
 
-//@JsonPropertyOrder({"id", "store", "film"})
 
 public class InventoryDTO {
 
