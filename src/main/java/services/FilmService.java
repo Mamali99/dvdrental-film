@@ -5,6 +5,7 @@ import dto.CategoryDTO;
 import dto.FilmDTO;
 import entities.*;
 import jakarta.ejb.Stateless;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
@@ -24,8 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-@Named
-@Stateless
+@ApplicationScoped
 public class FilmService {
 
     @PersistenceContext

@@ -4,6 +4,7 @@ import dto.ActorDTO;
 import dto.FilmDTO;
 import entities.*;
 import jakarta.ejb.Stateless;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
@@ -19,8 +20,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Named
-@Stateless
+@ApplicationScoped
 public class ActorService {
 
     @PersistenceContext

@@ -69,6 +69,7 @@
 
     <build>
         <finalName>ROOT</finalName>
+        <!--<finalName>${project.artifactId}</finalName>-->
         <plugins>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
@@ -91,6 +92,7 @@
                         <layer>jaxrs</layer>
                         <layer>bean-validation</layer>
                         <layer>management</layer>
+                        <layer>postgresql-datasource</layer>
                     </layers>
                     <excluded-layers>
                         <layer>deployment-scanner</layer>

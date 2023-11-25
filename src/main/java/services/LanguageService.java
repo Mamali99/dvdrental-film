@@ -2,6 +2,7 @@ package services;
 
 import entities.Language;
 import jakarta.ejb.Stateless;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -9,8 +10,7 @@ import jakarta.persistence.TypedQuery;
 
 import java.util.ArrayList;
 import java.util.List;
-@Named
-@Stateless
+@ApplicationScoped
 public class LanguageService {
 
     @PersistenceContext
