@@ -1,4 +1,3 @@
-
 export postgresql_database=dvdrentalfilm
 export postgresql_user=postgres
 export postgresql_password=film
