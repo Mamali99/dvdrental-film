@@ -20,14 +20,14 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
 
             <!-- Konfiguration der Verbindungsdaten -->
-            <!--<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:54321/dvdrentalfilm"/>-->
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://film-db:54321/dvdrentalfilm"/>
-            <property name="javax.persistence.jdbc.user" value="postgres"/>
-            <property name="javax.persistence.jdbc.password" value="film"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:54321/dvdrentalfilm"/>
+            <!--  <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://film-db:54321/dvdrentalfilm"/>-->
+          <property name="javax.persistence.jdbc.user" value="postgres"/>
+          <property name="javax.persistence.jdbc.password" value="film"/>
 
 
 
-            <!-- Weitere Eigenschaften... -->
+          <!-- Weitere Eigenschaften... -->
         </properties>
     </persistence-unit>
 </persistence>
