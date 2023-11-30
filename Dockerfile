@@ -1,5 +1,5 @@
 # Verwenden des Eclipse Temurin JRE-Images als Basis
-FROM eclipse-temurin:20-jre
+FROM docker.io/library/eclipse-temurin:20-jre
 
 # Setzen Sie das Arbeitsverzeichnis im Container
 WORKDIR /usr/app
