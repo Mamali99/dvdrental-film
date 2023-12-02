@@ -9,7 +9,7 @@ ENV POSTGRESQL_USER=postgres
 ENV POSTGRESQL_PASSWORD=film
 
 # Kopieren des Bootable JAR-Files in den Docker-Container
-COPY ./target/ROOT-bootable.jar /usr/app/ROOT-bootable.jar
+COPY ./target/film-app-bootable.jar /usr/app/ROOT-bootable.jar
 
 
 # Expose Port 8081 für den Container
