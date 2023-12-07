@@ -6,7 +6,7 @@ WORKDIR /usr/app
 
 # Setzen von Umgebungsvariablen für die Datenbankverbindung
 ENV POSTGRESQL_USER=postgres
-ENV POSTGRESQL_PASSWORD=film
+ENV POSTGRESQL_PASSWORD=trust
 
 # Kopieren des Bootable JAR-Files in den Docker-Container
 COPY ./target/film-app-bootable.jar /usr/app/ROOT-bootable.jar

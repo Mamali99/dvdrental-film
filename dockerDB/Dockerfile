@@ -6,7 +6,7 @@ ENV LANG de_DE.utf8
 
 # Umgebungsvariablen für Postgres setzen
 ENV POSTGRES_USER=postgres
-ENV POSTGRES_PASSWORD=film
+ENV POSTGRES_PASSWORD=trust
 
 # Kopieren Sie die heruntergeladene SQL-Datei in den Docker-Container
 COPY dvd-rental-film.sql /docker-entrypoint-initdb.d/
