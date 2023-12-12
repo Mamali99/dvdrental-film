@@ -1,0 +1,14 @@
+# IDE-specific files
+.idea/
+*.iml
+
+# Build artifacts
+target/
+*.war
+*.jar
+
+# Avoid Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
