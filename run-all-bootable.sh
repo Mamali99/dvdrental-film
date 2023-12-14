@@ -4,11 +4,11 @@
 BASE_DIR=$(dirname "$0")
 # Gehe in das Customer-Projektverzeichnis und führe Maven aus
 #echo "Baue Customer-Projekt..."
-#(cd "$BASE_DIR/../Customer-projekt" && mvn clean package)
+#(cd "$BASE_DIR/../dvdrental-customer" && mvn clean package)
 
 # Gehe in das Store-Projektverzeichnis und führe Maven aus
 #echo "Baue Store-Projekt..."
-#(cd "$BASE_DIR/../Store-projekt" && mvn clean package)
+#(cd "$BASE_DIR/../dvdrental-store" && mvn clean package)
 
 # Gehe in das Film-Projektverzeichnis und führe Maven aus
 #echo "Baue Film-Projekt..."
