@@ -6,4 +6,5 @@ export postgresql_service_port=54321
 
 
 java -Djboss.http.port=8081 -jar target/dvdrental-film-bootable.jar
+#auch für andere Projekte machen!!!!!!!!!!!!!!!!!!!!
 
