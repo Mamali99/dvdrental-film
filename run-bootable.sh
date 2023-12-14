@@ -5,5 +5,5 @@ export postgresql_datasource=PostgresDS
 export postgresql_service_port=54321
 
 
-java -Djboss.http.port=8081 -jar target/film-app-bootable.jar
+java -Djboss.http.port=8081 -jar target/dvdrental-film-bootable.jar
 

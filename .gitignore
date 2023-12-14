@@ -4,8 +4,7 @@
 
 # Build artifacts
 target/
-*.war
-*.jar
+
 
 # Avoid Windows system files
 Thumbs.db
