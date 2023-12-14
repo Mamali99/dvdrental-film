@@ -8,8 +8,4 @@
 target/
 
 
-# Avoid Windows system files
-Thumbs.db
-ehthumbs.db
-Desktop.ini
 
