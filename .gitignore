@@ -7,5 +7,16 @@
 # Build artifacts
 target/
 
+# Log files
+*.log
 
+# Artifact files, like compiled source code
+*.class
+*.o
+*.so
 
+# Package directories
+node_modules/
+dist/
+build/
+*.war
