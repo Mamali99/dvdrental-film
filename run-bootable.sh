@@ -1,10 +1,18 @@
-export postgresql_database=dvdrentalfilm
-export postgresql_user=postgres
-export postgresql_password=trust
-#export postgresql_datasource=PostgresDS
-#export postgresql_service_port=54321
+#!/bin/bash
 
+export POSTGRES_HOST=localhost
+export POSTGRES_PORT=54321
+export POSTGRES_DB=dvdrentalfilm
+export POSTGRES_USER=postgres
+export POSTGRES_PASSWORD=trust
 
-java -Djboss.http.port=8081 -jar target/dvdrental-film-bootable.jar
-#auch für andere Projekte machen!!!!!!!!!!!!!!!!!!!!
+# Setze den Port, auf dem der Service laufen soll
+export HTTP_PORT=8081
 
+java -Djboss.http.port=${HTTP_PORT} \
+     -Denv.POSTGRES_HOST=${POSTGRES_HOST} \
+     -Denv.POSTGRES_PORT=${POSTGRES_PORT} \
+     -Denv.POSTGRES_DB=${POSTGRES_DB} \
+     -Denv.POSTGRES_USER=${POSTGRES_USER} \
+     -Denv.POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+     -jar target/dvdrental-film-bootable.jar

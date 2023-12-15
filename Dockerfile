@@ -4,17 +4,26 @@ FROM docker.io/library/eclipse-temurin:20-jre
 # Setzen Sie das Arbeitsverzeichnis im Container
 WORKDIR /usr/app
 
-# Setzen von Umgebungsvariablen für die Datenbankverbindung
-ENV POSTGRESQL_USER=postgres
-ENV POSTGRESQL_PASSWORD=trust
+# Standardwerte für Umgebungsvariablen festlegen
+ENV POSTGRES_HOST=localhost
+ENV POSTGRES_PORT=54321
+ENV POSTGRES_DB=dvdrentalfilm
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=trust
 
 # Kopieren des Bootable JAR-Files in den Docker-Container
 COPY ./target/dvdrental-film-bootable.jar /usr/app/dvdrental-film-bootable.jar
-
 
 # Expose Port 8081 für den Container
 EXPOSE 8081
 
 # Setzen der WildFly-Konfiguration, um auf alle Netzwerkschnittstellen zu hören und Port 8081 zu verwenden
-CMD java -Djboss.bind.address=0.0.0.0 -Djboss.bind.address.management=0.0.0.0 -Djboss.http.port=8081 -jar /usr/app/dvdrental-film-bootable.jar -Dpostgresql.user=${POSTGRESQL_USER} -Dpostgresql.password=${POSTGRESQL_PASSWORD}
-
+CMD java -Djboss.http.port=8081 \
+     -Djboss.bind.address=0.0.0.0 \
+     -Djboss.bind.address.management=0.0.0.0 \
+     -Dpostgresql.host=${POSTGRES_HOST} \
+     -Dpostgresql.port=${POSTGRES_PORT} \
+     -Dpostgresql.database=${POSTGRES_DB} \
+     -Dpostgresql.user=${POSTGRES_USER} \
+     -Dpostgresql.password=${POSTGRES_PASSWORD} \
+     -jar /usr/app/dvdrental-film-bootable.jar

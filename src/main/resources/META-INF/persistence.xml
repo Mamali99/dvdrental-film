@@ -16,10 +16,15 @@
 
             <!-- Konfiguration der Verbindungsdaten -->
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://${env.POSTGRES_HOST}:${env.POSTGRES_PORT}/${env.POSTGRES_DB}"/>
+            <property name="jakarta.persistence.jdbc.user" value="${env.POSTGRES_USER}"/>
+            <property name="jakarta.persistence.jdbc.password" value="${env.POSTGRES_PASSWORD}"/>
+
+            <!--
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:54321/dvdrentalfilm"/>
-            <!--  <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://film-db:54321/dvdrentalfilm"/>-->
+
           <property name="jakarta.persistence.jdbc.user" value="postgres"/>
-          <property name="jakarta.persistence.jdbc.password" value="trust"/>
+          <property name="jakarta.persistence.jdbc.password" value="trust"/>-->
 
 
 
