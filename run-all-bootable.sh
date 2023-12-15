@@ -52,8 +52,8 @@ done
 echo "Alle Datenbanken sind initialisiert."
 
 # Starte die Container für die Anwendungen
-podman run --pod mein-pod -d --name film-app -e "SERVICE_PORT=8081" ftse/film-app
-podman run --pod mein-pod -d --name store-app -e "SERVICE_PORT=8082" ftse/store-app
-podman run --pod mein-pod -d --name customer-app -e "SERVICE_PORT=8083" ftse/customer-app
+podman run --pod mein-pod -d --name film-app ftse/film-app
+podman run --pod mein-pod -d --name store-app ftse/store-app
+podman run --pod mein-pod -d --name customer-app ftse/customer-app
 
 echo "Alle Anwendungen sind gestartet."

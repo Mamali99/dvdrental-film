@@ -21,9 +21,9 @@ EXPOSE 8081
 CMD java -Djboss.http.port=8081 \
      -Djboss.bind.address=0.0.0.0 \
      -Djboss.bind.address.management=0.0.0.0 \
-     -Dpostgresql.host=${POSTGRES_HOST} \
-     -Dpostgresql.port=${POSTGRES_PORT} \
-     -Dpostgresql.database=${POSTGRES_DB} \
-     -Dpostgresql.user=${POSTGRES_USER} \
-     -Dpostgresql.password=${POSTGRES_PASSWORD} \
+     -Denv.POSTGRES_HOST=${POSTGRES_HOST} \
+          -Denv.POSTGRES_PORT=${POSTGRES_PORT} \
+          -Denv.POSTGRES_DB=${POSTGRES_DB} \
+          -Denv.POSTGRES_USER=${POSTGRES_USER} \
+          -Denv.POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
      -jar /usr/app/dvdrental-film-bootable.jar

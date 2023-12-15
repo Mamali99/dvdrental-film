@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export POSTGRES_HOST=localhost
-export POSTGRES_PORT=54321
+export POSTGRES_PORT=54321 # muss alle 5432 sein
 export POSTGRES_DB=dvdrentalfilm
 export POSTGRES_USER=postgres
 export POSTGRES_PASSWORD=trust
