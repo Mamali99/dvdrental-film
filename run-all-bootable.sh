@@ -3,16 +3,16 @@
 # Setze das Basisverzeichnis als das übergeordnete Verzeichnis des dvdrental-film Projekts
 BASE_DIR=$(dirname "$0")
 # Gehe in das Customer-Projektverzeichnis und führe Maven aus
-#echo "Baue Customer-Projekt..."
-#(cd "$BASE_DIR/../dvdrental-customer" && mvn clean package)
+echo "Baue Customer-Projekt..."
+(cd "$BASE_DIR/../dvdrental-customer" && mvn clean package)
 
 # Gehe in das Store-Projektverzeichnis und führe Maven aus
-#echo "Baue Store-Projekt..."
-#(cd "$BASE_DIR/../dvdrental-store" && mvn clean package)
+echo "Baue Store-Projekt..."
+(cd "$BASE_DIR/../dvdrental-store" && mvn clean package)
 
 # Gehe in das Film-Projektverzeichnis und führe Maven aus
-#echo "Baue Film-Projekt..."
-#(cd "$BASE_DIR" && mvn clean package)
+echo "Baue Film-Projekt..."
+(cd "$BASE_DIR" && mvn clean package)
 
 # Baue die Images für die anderen Projekte
 podman build -t ftse/customer-db:15 "$BASE_DIR/../dvdrental-customer/dockerDB"
