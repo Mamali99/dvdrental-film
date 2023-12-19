@@ -91,9 +91,7 @@ public class FilmService {
         return convertFilmToDTO(film);
     }
 
-
-
-
+    @Transactional
     public boolean updateFilm(int id, List<UpdateRequestFilm> updates){
         Film film = getFilmById(id);
 
@@ -131,6 +129,7 @@ public class FilmService {
         }
     }
 
+    @Transactional
     public List<ActorDTO> getActorsByFilmId(int id) {
         Film film = entityManager.find(Film.class, id);
         if (film == null) {

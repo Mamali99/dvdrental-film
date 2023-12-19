@@ -104,6 +104,7 @@ public class ActorService {
         return true;
     }
 
+    @Transactional
     public boolean updateActor(int id, List<UpdateRequestActor> updates) {
 
         Actor actor = getActorById(id);
