@@ -1,0 +1,6 @@
+- DB-Dump in Repo, daher copy statt add
+- Verändert produktive DB, ganz schlecht (-10%)
+- Quarkus nicht gemacht (-10%)
+- API ok
+
+75% / 25P
