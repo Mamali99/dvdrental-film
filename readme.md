@@ -1,11 +1,13 @@
-# Einfaches Projekt zum Starten mit WildFly's bootable Jar
+Die einzelnen bootable Jars werden in den Projektverzeichnissen jeweils gestartet durch
 
-## Bauen
-mvn clean package
+– ./run-bootable.sh
 
-## Betreiben
-java -jar target/starter-bootable.jar
 
-## Betreiben im Entwicklungsmodus
-mvn wildfly-jar:dev-watch
+Für die Container-Lösungen genugt im Film-Projekt jeweils
+
+– ./run-all-bootable.sh
+– ./clean-all-bootable.sh (Entfernen aller Container, Images und Pods)
+
+• Die Shell-Dateien enthalten nur einfache Podman-Aufrufe und Shell-Befehle
+
 
